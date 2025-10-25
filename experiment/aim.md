@@ -1,2 +1,15 @@
 ## Aim of experiment
-To analyze energy band diagrams and surface potential of a Metal-Oxide-Semiconductor (MOS) capacitor.
+Aim:
+
+To understand the pathloss prediction formula.
+
+### Objective:
+
+
+1. Calculation of received signal strength as a function of distance of separation, antenna height and carrier frequency.
+2. To understand the impact of :-
+- Transmitter Power,
+- Pathloss exponent,
+- Carrier frequency,
+- Receiver antenna height,
+- Transmitter antenna height.
