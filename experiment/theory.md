@@ -1,22 +1,22 @@
 ## Theory
 **Introduction:**  
 The design of a communication system involves selection of values for several parameters. One of the important parameter is the transmit power. Higher transmit power ensures large allowable separation distance between the transmitter (Tx) and receiver (Rx). Of course the loss in signal power per unit distance depends on the properties of the medium. In case of wireless communication on one hand it is desired to have a very large coverage (large allowable separation between Tx and Rx) on the other hand it is also desired that co-channel interference be as low as possible. An understanding of the large scale propagation effects is very important for design of suitable communication system. In terrestrial mobile communication system, electro-magnetic wave propagation is affected by reflection, diffraction and scattering. These lead to dynamic variation of signal strength as a function of time, frequency, distance of separation, antenna height, antenna configuration, local scattering environment etc. Propagation models are necessary in order to predict the received signal strength for a given set of parameters as mentioned above. These models can be broadly considered under:-
-<div align="center">
-    <img src="images/tvic.jpg" alt="Threshold Voltage and Inversion charge">  
-      <p><strong>Fig. 1. Threshold Voltage and Inversion charge</strong></p>
-</div>
+
 
 - Large scale Fading Model.
 
 - Small Scale Fading Model.
 
-1.1 Large Scale Fading:-
+### 1.1 Large Scale Fading:-
 
 Large Scale Fading is dealt by propagation models that predict the mean received signal strength for an arbitrary transmitter receiver separation. The large scale fading model gives such an average with measurements across $4\lambda$ to $40\lambda$, where $\lambda$ is the wavelength. This is useful for estimating coverage area. Large Scale fading can be broadly classified as:-
+- Path Loss.
+- Shadowing.
 
-Path Loss.
-
-Shadowing.
+<div align="center">
+    <img src="images/theory1.png" alt="Large Scale Fading">  
+      <p><strong>Fig. 1. Large Scale Fading</strong></p>
+</div>
 
 Large scale fading is heavily affected by power dissipation and effects of the propagation channels. The models assume some path loss at a given distance between Tx and Rx i.e. there is no shadowing. It is useful in getting a quick estimate of the average signal strength, hence the coverage. These models are used for prediction of signal variation across 100m-1000m.
 
@@ -69,11 +69,11 @@ The Value $d_0$ in 1-2 GHz.
 
 The received power predicted by path loss models is influenced by
 
-Reflection: Reflection occurs when the propagation waves impinge on objects with dimension larger than $\lambda$.
+#### Reflection: Reflection occurs when the propagation waves impinge on objects with dimension larger than $\lambda$.
 
-Diffraction: Diffraction is caused by sharp irregularities in the path of radio waves. It leads to development of secondary wave fronts, bending of waves. It is caused by objects which are in order in $\lambda$. It depends on geometry of the objects, amplitude, phase and polarization of incident waves.
+#### Diffraction: Diffraction is caused by sharp irregularities in the path of radio waves. It leads to development of secondary wave fronts, bending of waves. It is caused by objects which are in order in $\lambda$. It depends on geometry of the objects, amplitude, phase and polarization of incident waves.
 
-Scattering: Scattering is caused by objects which are smaller than $\lambda$.
+#### Scattering: Scattering is caused by objects which are smaller than $\lambda$.
 
 Using the famous 2-Ray propagation model [Ref(Rappaport)] . It can be shown that when a transmitter at height $h_t$ transmit with power $P_t$ having antenna gain $G_t$ the receiver signal power at the receiver located at height $h_r$ using an antenna with gain $G_r$ and located at a distance 'd' from the transmitter given by
 
@@ -108,6 +108,12 @@ Its disadvantage is that it is valid for only the measured frequency and locatio
 
 $\overline{PL}(\text{dB}) = \overline{PL}(d_0) + 10 n_p \log\left(\frac{d}{d_0}\right)$
 
+<div align="center">
+    <img src="images/theory2.png" alt="Large Scale Fading">  
+      <p><strong>Fig. 1. Large Scale Fading</strong></p>
+</div>
+
+
 Pathloss models are defined for:
 
 Indoor office test environment
@@ -137,9 +143,9 @@ $h_b$ = Base station height[m] above average roof top level.
 
 Path Loss deals with the propagation loss due to distance between transmitter and receiver while shadowing describes variation in the average signal strength due to varying environmental clutter at different locations.
 
-This experiment is on Path Loss Models.
+## This experiment is on Path Loss Models.
 
-1.2 Important Formulas:-
+### 1.2 Important Formulas:-
 
 These two formulas are for calculating the received signal strength and path loss exponent. These two formulas are applicable for EXPT 1A and EXPT 1B.
 
@@ -160,7 +166,7 @@ $PL(\text{dB}) = PL(d_0) + 10 n_p \log_{10}\left(\frac{d}{d_0}\right)$
 Where,
 $n_p$ = the path loss exponent.
 
-1.3 Advanced Formula:-
+### 1.3 Advanced Formula:-
 
 This advanced formula given below calculates the path loss for a particular application and captures the effect of base station antenna height, receiver antenna height and carrier frequency.
 
