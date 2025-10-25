@@ -15,8 +15,7 @@ Large Scale Fading is dealt by propagation models that predict the mean received
 
 <div align="center">
     <img src="images/theory1.png" alt="Large Scale Fading">  
-      <p><strong>Fig. 1. Large Scale Fading</strong></p>
-</div>
+      </div>
 
 Large scale fading is heavily affected by power dissipation and effects of the propagation channels. The models assume some path loss at a given distance between Tx and Rx i.e. there is no shadowing. It is useful in getting a quick estimate of the average signal strength, hence the coverage. These models are used for prediction of signal variation across 100m-1000m.
 
