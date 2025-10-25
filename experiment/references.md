@@ -1,9 +1,9 @@
 ## References
 #### Books
-1) Christian C. Enz and Eric A. Vittoz, Charge-Based MOS Transistor Modeling: The EKV model for low-power and RF IC design, Wiley, 2006
+1) Theodore S. Rappaport, 'Wireless Communications: Principles and Practice', 2nd Edition, Prentice Hall Communications Engineering and Emerging Technologies Series.
 
-2) S. M. Sze and Kwok K. Ng, Physics of Semiconductor Devices, Wiley, 2006
+2) Gordon L. Stuber, 'Principles of Mobile Communications', 2nd Edition, Gordon L. Stuber, Georgia Institute of Technology, Atlanta, Georgia, USA, Kluwer Academic Publishers.
 
 #### Video Lectures
-- [MOS capacitor](https://www.youtube.com/watch?v=Gwyi2brc0QQ)
+- [NPTEL](http://nptel.ac.in/courses/117102062/10)
 
