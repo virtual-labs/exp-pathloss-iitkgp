@@ -115,7 +115,8 @@ $\overline{PL}(\text{dB}) = \overline{PL}(d_0) + 10 n_p \log\left(\frac{d}{d_0}\
 
 Pathloss models are defined for:
 
-Indoor office test environment
+1. Indoor office test environment
+
 $PL = 37 + 30\log_{10}(R) + (18 \times 3 \times n^{(\frac{n+2}{n+1} - 0.46)})$ [dB]
 
 R = transmitter-receiver Seperation.
@@ -124,14 +125,16 @@ n = no. of floor in the path.
 
 L shall in all cases > free space loss.
 
-Outdoor to indoor and pedestrian testr environment(base model)
+2. Outdoor to indoor and pedestrian testr environment(base model)
+   
 $PL = 40\log_{10}(R) + 30\log_{10}(f) - 49$ [dB]
 
 R = base station to mobile station deviation [Km],
 
 f = carrier frequency [MHz], reference 2000 MHz.
 
-Vehicular test environment
+3. Vehicular test environment
+   
 $PL = 40(1 - 4 \times 10^{-3} \Delta h_b)\log_{10}(R) - 18\log_{10}(\Delta h_b) + 21\log_{10}(f) + 80$ [dB]
 
 R = base station to mobile station deviation [Km],
