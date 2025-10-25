@@ -155,13 +155,13 @@ $P_r(d) = P_r(d_0) + 10 n_p \log_{10}\left(\frac{d_0}{d}\right)$
 
 Where,
 
-$P_r(d)$ = received signal strength for a certain Tx-Rx separation distance,
+- $P_r(d)$ = received signal strength for a certain Tx-Rx separation distance,
 
-d = certain Tx-Rx separation distance in meters,
+- d = certain Tx-Rx separation distance in meters,
 
-$P_r(d_0)$ = received signal strength at a close-in-reference-distance,
+- $P_r(d_0)$ = received signal strength at a close-in-reference-distance,
 
-$d_0$ = close-in reference distance from transmitter in meters.
+- $d_0$ = close-in reference distance from transmitter in meters.
 
 $PL(\text{dB}) = PL(d_0) + 10 n_p \log_{10}\left(\frac{d}{d_0}\right)$
 
@@ -176,13 +176,13 @@ $PL = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{BS}) - 18\log_{10}(h_{UT}) + 20
 
 Where,
 
-d = Tx-Rx, i.e., Tx and Rx separation distance in meters.
+- d = Tx-Rx, i.e., Tx and Rx separation distance in meters.
 
-$h_{BS}$ = the base station antenna height in meters.
+- $h_{BS}$ = the base station antenna height in meters.
 
-$h_{UT}$ == the user terminal i.e. receiver antenna height in meters.
+- $h_{UT}$ == the user terminal i.e. receiver antenna height in meters.
 
-fc is the carrier frequency in GHz.
+- fc is the carrier frequency in GHz.
 
 This formula is applicable for EXPT 1C, 1D, 1E.
 
