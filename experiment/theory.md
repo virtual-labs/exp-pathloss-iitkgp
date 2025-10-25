@@ -1,39 +1,14 @@
 ## Theory
 **Introduction:**  
-The boundary between accumulation and depletion is the flat-band voltage and the boundary between depletion and inversion is the threshold voltage.
+The design of a communication system involves selection of values for several parameters. One of the important parameter is the transmit power. Higher transmit power ensures large allowable separation distance between the transmitter (Tx) and receiver (Rx). Of course the loss in signal power per unit distance depends on the properties of the medium. In case of wireless communication on one hand it is desired to have a very large coverage (large allowable separation between Tx and Rx) on the other hand it is also desired that co-channel interference be as low as possible. An understanding of the large scale propagation effects is very important for design of suitable communication system. In terrestrial mobile communication system, electro-magnetic wave propagation is affected by reflection, diffraction and scattering. These lead to dynamic variation of signal strength as a function of time, frequency, distance of separation, antenna height, antenna configuration, local scattering environment etc. Propagation models are necessary in order to predict the received signal strength for a given set of parameters as mentioned above. These models can be broadly considered under:-
 <div align="center">
     <img src="images/tvic.jpg" alt="Threshold Voltage and Inversion charge">  
       <p><strong>Fig. 1. Threshold Voltage and Inversion charge</strong></p>
 </div>
 
-Exp-1: Understand the pathloss prediction formula
+- Large scale Fading Model.
 
-Aim:
-To understand the pathloss prediction formula.
-
-Objective:
-
-Calculation of received signal strength as a function of distance of separation between transmitter and receiver.
-
-To understand the impact of the following parameters on received signal strength.
-
-Transmitter Power,
-
-Pathloss exponent,
-
-Carrier frequency,
-
-Receiver antenna height,
-
-Transmitter antenna height.
-
-Theory for Experiment 1: Understand the pathloss prediction formula
-
-The design of a communication system involves selection of values for several parameters. One of the important parameter is the transmit power. Higher transmit power ensures large allowable separation distance between the transmitter (Tx) and receiver (Rx). Of course the loss in signal power per unit distance depends on the properties of the medium. In case of wireless communication on one hand it is desired to have a very large coverage (large allowable separation between Tx and Rx) on the other hand it is also desired that co-channel interference be as low as possible. An understanding of the large scale propagation effects is very important for design of suitable communication system. In terrestrial mobile communication system, electro-magnetic wave propagation is affected by reflection, diffraction and scattering. These lead to dynamic variation of signal strength as a function of time, frequency, distance of separation, antenna height, antenna configuration, local scattering environment etc. Propagation models are necessary in order to predict the received signal strength for a given set of parameters as mentioned above. These models can be broadly considered under:-
-
-Large scale Fading Model.
-
-Small Scale Fading Model.
+- Small Scale Fading Model.
 
 1.1 Large Scale Fading:-
 
