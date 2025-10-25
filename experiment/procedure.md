@@ -1,18 +1,13 @@
 ## Procedure
-<div align="center">
-<img src="images/peq.jpg"  />
-  
-**Fig. 1. Gradual channel approximation**
-</div>
-  
-1 Instructions for Experiment 1:- Understanding Path Loss
 
 Follow the instructions given below to perform the experiments:-
 
-1.1 Starting Experiment 1 :-
+### 1.1 Starting Experiment 1 :-
 
 Step 1:-Click on the START button.A page appears with a dialogue box asking for your name.Enter your name and click OK.
-
+<div align="center">
+<img src="images/instruction111.png"  />
+</div>
 Step 2:-Now the page appears where you can perform experiment1.There are 5 buttons(Exp1A Exp1B Exp1C Exp1D Exp1E) for five experiments to be performed . Choose which experiment you want to perform and click on any one of the button.
 
 1.2 Performing Experiment 1A(Calculation of Received Power at a cer-tain Tx-Rx separation distance) :-
