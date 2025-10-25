@@ -1,5 +1,4 @@
 ## Aim of experiment
-Aim:
 
 To understand the pathloss prediction formula.
 
