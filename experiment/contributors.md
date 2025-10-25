@@ -16,5 +16,5 @@ SrNo | Name | VLabs Developer or Integration Engineer | Designation | Department
 :--|:--|:--|:--|:--|:--|
 1 | **Mr. BOSSS Prakash** |Developer |Junior Project Assistant  | G.S.Sanyal School of Telecommunications | IIT Kharagpur |
 2 | **U.Kamal Kumar** |Developer | Junior Project Assistant  | G.S.Sanyal School of Telecommunications | IIT Kharagpur |
-3 | **U.Kamal Kumar** |Developer | Project intern | G.S.Sanyal School of Telecommunications | IIT Kharagpur |
+3 | **Mr. Amiya Dey** |Content Writer | Project intern | G.S.Sanyal School of Telecommunications | IIT Kharagpur |
 4 | **Subhasis Mahata** |AWS Integration Engineer | Senior Project Scientist | Department of Mechanical Engineering | IIT Kharagpur |   
