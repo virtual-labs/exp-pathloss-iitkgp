@@ -109,8 +109,8 @@ Its disadvantage is that it is valid for only the measured frequency and locatio
 $\overline{PL}(\text{dB}) = \overline{PL}(d_0) + 10 n_p \log\left(\frac{d}{d_0}\right)$
 
 <div align="center">
-    <img src="images/theory2.png" alt="Large Scale Fading">  
-      <p><strong>Fig. 1. Large Scale Fading</strong></p>
+    <img src="images/theory2.png" alt="Environment and Pathloss">  
+      <p><strong>Fig. 2. Environment and Pathloss</strong></p>
 </div>
 
 
