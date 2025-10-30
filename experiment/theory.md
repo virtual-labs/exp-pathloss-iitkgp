@@ -9,7 +9,7 @@ The design of a communication system involves selection of values for several pa
 
 ### 1.1 Large Scale Fading:-
 
-Large Scale Fading is dealt by propagation models that predict the mean received signal strength for an arbitrary transmitter receiver separation. The large scale fading model gives such an average with measurements across $$4\lambda$$ to $$40\lambda$$, where $$\lambda$$ is the wavelength. This is useful for estimating coverage area. Large Scale fading can be broadly classified as:-
+Large Scale Fading is dealt by propagation models that predict the mean received signal strength for an arbitrary transmitter receiver separation. The large scale fading model gives such an average with measurements across 4λ to 40λ, where λ is the wavelength. This is useful for estimating coverage area. Large Scale fading can be broadly classified as:-
 - Path Loss.
 - Shadowing.
 
@@ -25,22 +25,22 @@ We begin with Friis Free space propagation loss. The received power at a distanc
 
 $$P_r(d) = \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2 L}$$       where $$G = \frac{4\pi A_e}{\lambda^2}$$
 
-P_t = Transmitter Power.
+- P_t = Transmitter Power.
 
-P_r(d) = Received power at a distance 'd'.
+- P_r(d) = Received power at a distance 'd'.
 
-G_t = Transmit antenna power gain.
+- G_t = Transmit antenna power gain.
 
-G_r = Received antenna power gain.
+- G_r = Received antenna power gain.
 
-$$\lambda$$ = Wavelength.
+- λ = Wavelength.
 
-A_e = Effective aperture related to the physical size of antenna.
+- A_e = Effective aperture related to the physical size of antenna.
 
-L>=1 System loss factor not related to propagation.
+- L>=1 System loss factor not related to propagation.
 Transmission line , Filter losses, Antenna loss etc .
 
-D = T_x - R_x separation distance.
+- D = T_x - R_x separation distance.
 P_r decrease as square of distance 20 dB/ decade.
 
 Path loss gives a measure of signal attenation. It is usually measured in dB. It is defined as a difference between the transmitted antenna gains.
@@ -63,16 +63,18 @@ $$P_r(d) \text{[dBm]} = 10\log_{10}\left(\frac{P_r(d_0)}{10^{-3} \text{W}}\right
 Where $$P_r(d_0)$$ is in watt.
 
 The Value $$d_0$$ in 1-2 GHz.
+
 ~1m for indoor condition.
+
 ~100m / 1km for indoor condition.
 
 The received power predicted by path loss models is influenced by
 
-#### Reflection: Reflection occurs when the propagation waves impinge on objects with dimension larger than $\lambda$.
+#### Reflection: Reflection occurs when the propagation waves impinge on objects with dimension larger than λ .
 
-#### Diffraction: Diffraction is caused by sharp irregularities in the path of radio waves. It leads to development of secondary wave fronts, bending of waves. It is caused by objects which are in order in $\lambda$. It depends on geometry of the objects, amplitude, phase and polarization of incident waves.
+#### Diffraction: Diffraction is caused by sharp irregularities in the path of radio waves. It leads to development of secondary wave fronts, bending of waves. It is caused by objects which are in order in λ. It depends on geometry of the objects, amplitude, phase and polarization of incident waves.
 
-#### Scattering: Scattering is caused by objects which are smaller than $\lambda$.
+#### Scattering: Scattering is caused by objects which are smaller than λ.
 
 Using the famous 2-Ray propagation model [Ref(Rappaport)] . It can be shown that when a transmitter at height $$h_t$$ transmit with power $$P_t$$ having antenna gain $$G_t$$ the receiver signal power at the receiver located at height $$h_r$$ using an antenna with gain $$G_r$$ and located at a distance 'd' from the transmitter given by
 
@@ -86,7 +88,7 @@ For all above range of d,
 
 $$E_{TOT} \approx \frac{2E_0 d_0}{d} \frac{2\pi h_t h_r}{\lambda d} \approx \frac{k}{d^2} \text{ V/m}$$
 
-k is related to $$E_0$$, antenna heights and $$\lambda$$
+k is related to $$E_0$$, antenna heights and λ 
 
 Power received is proportional to square of electric field.
 
