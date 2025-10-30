@@ -23,7 +23,7 @@ There have been ray tracing methods which are complicated and are useful for sta
 
 We begin with Friis Free space propagation loss. The received power at a distance 'd' is given by.
 
-$$P_r(d) = \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2 L}$$ \\where\\ $$G = \frac{4\pi A_e}{\lambda^2}$$
+$$P_r(d) = \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2 L}$$ \where\ $$G = \frac{4\pi A_e}{\lambda^2}$$
 
 - P_t = Transmitter Power.
 
