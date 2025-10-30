@@ -62,10 +62,9 @@ Usually received signal strength is measured in dBm or dBw.
 $$P_r(d) \text{[dBm]} = 10\log_{10}\left(\frac{P_r(d_0)}{10^{-3} \text{W}}\right) + 20\log_{10}\left(\frac{d_0}{d}\right) \text{,}  \quad d \ge d_0 \ge d_f$$
 
     
-$\text{Where} \quad P_r(d_0) \quad \text{is in watt.}$
+Where $P_r(d_0)$ is in watt.
 
-
-$\text{The Value} \quad d_0 \quad \text{in 1-2 GHz.}$
+The Value $d_0$ in 1-2 GHz.
 
 ~1m for indoor condition.
 
@@ -79,11 +78,11 @@ __Diffraction:__ Diffraction is caused by sharp irregularities in the path of ra
 
 __Scattering:__ Scattering is caused by objects which are smaller than λ.
 
-Using the famous 2-Ray propagation model [Ref(Rappaport)]. It can be shown that when a transmitter at height $h_t$ transmit with power $P_t$ having antenna gain $G_t$ the receiver signal power at the receiver located at height $h_r$ using an antenna with gain $G_r$ and located at a distance 'd' from the transmitter given by:
+Using the famous 2-Ray propagation model [Ref(Rappaport)]. It can be shown that when a transmitter at height $h_t$ transmit with power $P_t$ having antenna gain $G_t$ the receiver signal power at the receiver located at height $h_r$ using an antenna with gain $G_r$ and located at a distance $d$ from the transmitter given by:
 
 $$P_r = P_t G_t G_r \left(\frac{h_t^2 h_r^2}{d^4}\right) \quad \text{, for} \quad d \gg \sqrt{h_t h_r}$$
 
-When $\theta_\Delta$ is small (< 0.3rads) $\sin(\theta_\Delta / 2) \approx (\theta_\Delta / 2)$
+$\text{When} \theta_\Delta \quad \text{is small (< 0.3rads)} \quad \sin(\theta_\Delta / 2) \approx (\theta_\Delta / 2)$
 
 $$\frac{\theta_\Delta}{2} \approx \frac{2\pi h_t h_r}{\lambda d} \rightarrow d > \frac{20\pi h_t h_r}{3\pi} \approx \frac{20 h_t h_r}{\lambda}$$
 
@@ -91,7 +90,7 @@ For all above range of d,
 
 $$E_{TOT} \approx \frac{2E_0 d_0}{d} \frac{2\pi h_t h_r}{\lambda d} \approx \frac{k}{d^2} \text{ V/m}$$
 
-k is related to $E_0$, antenna heights and λ 
+$k$ is related to $E_0$, antenna heights and $\lambda$
 
 Power received is proportional to square of electric field.
 
@@ -99,13 +98,13 @@ Therefore received power from transmitter at a distance d is
 
 $$P_r = P_t G_t G_r \left(\frac{h_t^2 h_r^2}{d^4}\right)\quad \text{,for} \quad d \gg \sqrt{h_t h_r}$$
 
-Power deceases with fourth power d $\rightarrow$ 40dB / decade
+Power deceases with fourth power $d$ $\rightarrow$ 40dB / decade
 
 The pathloss for the 2 Ray model is given by
 
 $$PL(\text{dB}) = 40\log(d) - (10\log(G_t) + 10\log(G_r) + 20\log(h_t) + 20\log(h_r))$$
 
-In general the PL and $d^{-n_r}$ is the pathloss exponent. The value of $n_p$ can be obtained analytically/emperically.
+In general the $PL$ and $d^{-n_p}$ is the pathloss exponent. The value of $n_p$ can be obtained analytically/empirically.
 
 Emperically models have the advantage of taking all factors into account (both known and unknown).It is based on actual field measurement.
 Its disadvantage is that it is valid for only the measured frequency and location. Generally
@@ -122,7 +121,7 @@ Pathloss models are defined for:
 
 1. Indoor office test environment
 
-$$PL = 37 + 30\log_{10}(R) + (18 \times 3 \times n^{(\frac{n+2}{n+1} - 0.46)})$$ [dB]
+$$PL = 37 + 30\log_{10}(R) + (18 \times 3 \times n^{(\frac{n+2}{n+1} - 0.46)})\quad \text{[dB]}$$
 
 - R = transmitter-receiver Seperation.
 
@@ -132,7 +131,7 @@ $$PL = 37 + 30\log_{10}(R) + (18 \times 3 \times n^{(\frac{n+2}{n+1} - 0.46)})$$
 
 2. Outdoor to indoor and pedestrian testr environment(base model)
    
-$$PL = 40\log_{10}(R) + 30\log_{10}(f) - 49$$ [dB]
+$$PL = 40\log_{10}(R) + 30\log_{10}(f) - 49 \quad \text{[dB]}$$
 
 - R = base station to mobile station deviation [Km],
 
@@ -140,7 +139,7 @@ $$PL = 40\log_{10}(R) + 30\log_{10}(f) - 49$$ [dB]
 
 3. Vehicular test environment
    
-$$PL = 40(1 - 4 \times 10^{-3} \Delta h_b)\log_{10}(R) - 18\log_{10}(\Delta h_b) + 21\log_{10}(f) + 80$$ [dB]
+$$PL = 40(1 - 4 \times 10^{-3} \Delta h_b)\log_{10}(R) - 18\log_{10}(\Delta h_b) + 21\log_{10}(f) + 80\quad \text{[dB]}$$
 
 - R = base station to mobile station deviation [Km],
 
