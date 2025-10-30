@@ -25,22 +25,22 @@ We begin with Friis Free space propagation loss. The received power at a distanc
 
 $$P_r(d) = \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2 L}$$       where $$G = \frac{4\pi A_e}{\lambda^2}$$
 
-P_t = Transmitter Power.
+- P_t = Transmitter Power.
 
-P_r(d) = Received power at a distance 'd'.
+- P_r(d) = Received power at a distance 'd'.
 
-G_t = Transmit antenna power gain.
+- G_t = Transmit antenna power gain.
 
-G_r = Received antenna power gain.
+- G_r = Received antenna power gain.
 
-$$\lambda$$ = Wavelength.
+- $$\lambda$$ = Wavelength.
 
-A_e = Effective aperture related to the physical size of antenna.
+- A_e = Effective aperture related to the physical size of antenna.
 
-L>=1 System loss factor not related to propagation.
+- L>=1 System loss factor not related to propagation.
 Transmission line , Filter losses, Antenna loss etc .
 
-D = T_x - R_x separation distance.
+- D = T_x - R_x separation distance.
 P_r decrease as square of distance 20 dB/ decade.
 
 Path loss gives a measure of signal attenation. It is usually measured in dB. It is defined as a difference between the transmitted antenna gains.
