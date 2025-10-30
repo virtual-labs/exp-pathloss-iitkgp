@@ -148,3 +148,5 @@ Where,
 * $f_c$ is the carrier frequency in GHz.
 
 This formula is applicable for EXPT 1C, 1D, 1E.
+
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script> 
