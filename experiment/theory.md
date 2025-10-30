@@ -63,7 +63,9 @@ $$P_r(d) \text{[dBm]} = 10\log_{10}\left(\frac{P_r(d_0)}{10^{-3} \text{W}}\right
 Where $$P_r(d_0)$$ is in watt.
 
 The Value $$d_0$$ in 1-2 GHz.
+
 ~1m for indoor condition.
+
 ~100m / 1km for indoor condition.
 
 The received power predicted by path loss models is influenced by
