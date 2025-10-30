@@ -52,19 +52,8 @@ $$PL(\text{dB}) = 10\log_{10}\left(\frac{P_t}{P_r}\right) = -10\log_{10}\left[\f
 
 It may be remembered that Friis free space model is valid for 'd' in the far field of the transmission antenna. The far field / Fraunhofer region is beyond the far field distance, where $$d_f = \frac{2D^2}{\lambda}$$.
 
-$\text{It is related to the largest linear dimension of the antenna aperture and carrier wavelength.} \quad d \quad \text{is the largest linear distance of the antenna.} \quad d_f \gg d \quad \text{and} \quad d_f \gg \lambda \quad \text{then it is the far field region. For path loss models} \quad d \quad \text{can't be 0.
-Therefore a close in distance is used which is known as the received power reference point. Thus} \quad P_r(d) \quad \text{for} \quad d>d_0 \quad \text{may be reference to} \quad P_r(d_0) \quad \text{where} \quad P_r(d_0) \quad \text{may be predicted from Friis free space propagation loss model. It may also be obtained from measurements by using average of several recordings at distance} \quad d_0 \quad. \quad \text{The distance} \quad d_0 \gg d_f \quad \text{ but} \quad d_0 \quad \text{is sufficiently smaller than practical BS-MS distance.}$
-
-
-$\text{It is related to the largest linear dimension of the antenna aperture and carrier wavelength.} \quad d \quad \text{is the largest linear distance of the antenna.}$ $\quad d_f \gg d \quad \text{and} \quad d_f \gg \lambda \quad \text{then it is the far field region. For path loss models} \quad d \quad \text{can't be 0.}$
-$\text{Therefore a close in distance is used which is known as the received power reference point. Thus} \quad P_r(d) \quad \text{for} \quad d>d_0 \quad \text{may be reference to} \quad P_r(d_0)$ $\text{where} \quad P_r(d_0) \quad \text{may be predicted from Friis free space propagation loss model.}$
-$\text{It may also be obtained from measurements by using average of several recordings at distance} \quad d_0 \quad.$
-$\text{The distance} \quad d_0 \gg d_f \quad \text{ but} \quad d_0 \quad \text{is sufficiently smaller than practical BS-MS distance.}$
-
-
-
-It is related to the largest linear dimension of the antenna aperture and carrier wavelength. $d$ is the largest linear distance of the antenna. $d_f \gg d$ and $d_f \gg \lambda$ then it is the far field region. For path loss models $d$ can't be 0.
-Therefore a close in distance is used which is known as the received power reference point. Thus $P_r(d)$ for $d>d_0$ may be reference to $P_r(d_0)$ where $P_r(d_0)$ may be predicted from Friis free space propagation loss model. It may also be obtained from measurements by using average of several recordings at distance $d_0$. The distance $d_0 \gg d_f$ but $d_0$ is sufficiently smaller than practical BS-MS distance.
+It is related to the largest linear dimension of the antenna aperture and carrier wavelength. $d$ is the largest linear distance of the antenna. $d_f  \gg d$ and $d_f  \gg  \lambda$ then it is the far field region. For path loss models $d$ can't be 0.
+Therefore a close in distance is used which is known as the received power reference point. Thus $P_r(d)$ for $d>d_0$ may be reference to $P_r(d_0)$ where $P_r(d_0)$ may be predicted from Friis free space propagation loss model. It may also be obtained from measurements by using average of several recordings at distance $d_0$. The distance $d_0  \gg d_f$ but $d_0$ is sufficiently smaller than practical BS-MS distance.
 
 $$P_r(d) = P_r(d_0) \left(\frac{d_0}{d}\right)^2 \text{,} d \ge d_0 \ge d_f $$
 
