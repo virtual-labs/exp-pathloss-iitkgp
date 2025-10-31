@@ -82,7 +82,7 @@ Using the famous 2-Ray propagation model [Ref(Rappaport)]. It can be shown that 
 
 $$P_r = P_t G_t G_r \left(\frac{h_t^2 h_r^2}{d^4}\right) \quad \text{, for} \quad d \gg \sqrt{h_t h_r}$$
 
-$\text{When} \theta_\Delta \quad \text{is small (< 0.3rads)} \quad \sin(\theta_\Delta / 2) \approx (\theta_\Delta / 2)$
+$$\text{When} \theta_\Delta \quad \text{is small (< 0.3rads)} \quad \sin(\theta_\Delta / 2) \approx (\theta_\Delta / 2)$$
 
 $$\frac{\theta_\Delta}{2} \approx \frac{2\pi h_t h_r}{\lambda d} \rightarrow d > \frac{20\pi h_t h_r}{3\pi} \approx \frac{20 h_t h_r}{\lambda}$$
 
@@ -144,7 +144,6 @@ $$PL = 40(1 - 4 \times 10^{-3} \Delta h_b)\log_{10}(R) - 18\log_{10}(\Delta h_b)
 - R = base station to mobile station deviation [Km],
 
 - f = carrier frequency [MHz], reference 2000 MHz.
-
 - $h_b$ = Base station height[m] above average roof top level.
 
 Path Loss deals with the propagation loss due to distance between transmitter and receiver while shadowing describes variation in the average signal strength due to varying environmental clutter at different locations.
@@ -158,17 +157,12 @@ These two formulas are for calculating the received signal strength and path los
 $$P_r(d) = P_r(d_0) + 10 n_p \log_{10}\left(\frac{d_0}{d}\right)$$
 
 Where,
-
 - $P_r(d)$ = received signal strength for a certain Tx-Rx separation distance,
-
 - d = certain Tx-Rx separation distance in meters,
-
 - $P_r(d_0)$ = received signal strength at a close-in-reference-distance,
-
 - $d_0$ = close-in reference distance from transmitter in meters.
 
 $$PL(\text{dB}) = PL(d_0) + 10 n_p \log_{10}\left(\frac{d}{d_0}\right)$$
-
 Where,
 $n_p$ = the path loss exponent.
 
@@ -179,15 +173,11 @@ This advanced formula given below calculates the path loss for a particular appl
 $$PL = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{BS}) - 18\log_{10}(h_{UT}) + 20\log_{10}(f_c)$$
 
 Where,
-
 - d = Tx-Rx, i.e., Tx and Rx separation distance in meters.
-
 - $h_{BS}$ = the base station antenna height in meters.
-
 - $h_{UT}$ == the user terminal i.e. receiver antenna height in meters.
-
 - fc is the carrier frequency in GHz.
-
+- 
 This formula is applicable for EXPT 1C, 1D, 1E.
 
  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>    
