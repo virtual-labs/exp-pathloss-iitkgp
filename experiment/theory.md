@@ -173,9 +173,10 @@ This advanced formula given below calculates the path loss for a particular appl
 $$PL = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{BS}) - 18\log_{10}(h_{UT}) + 20\log_{10}(f_c)$$
 
 Where,
-- d = Tx-Rx, i.e., Tx and Rx separation distance in meters.
-- $h_{BS}$ = the base station antenna height in meters.
-- $h_{UT}$ == the user terminal i.e. receiver antenna height in meters.
+Where,
+- $d$ = Tx-Rx, i.e., Tx and Rx separation distance in meters.
+- $h\_{BS}$ = the base station antenna height in meters.
+- $h\_{UT}$ = the user terminal i.e. receiver antenna height in meters.
 - fc is the carrier frequency in GHz.
 - 
 This formula is applicable for EXPT 1C, 1D, 1E.
