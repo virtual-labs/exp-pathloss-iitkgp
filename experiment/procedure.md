@@ -24,7 +24,7 @@ Follow the instructions given below to perform the experiments:-
 <img src="images/instruction2.png"  />
 </div>
 
-- Step 5:-Now,calculate the value of the unknown parameter (for e.g.P_r(d)) manually by using the formulas given in the theory section. For example:- Given P_r(d_0) = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of P_r(d), $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly,with the help of the formulas given in the theory section for expt1b,expt1c,expt1d and expt1e you can find the value of the unknown parameter for each of these experiments.
+- Step 5:-Now,calculate the value of the unknown parameter (for e.g.$P_r(d)$) manually by using the formulas given in the theory section. For example:- Given $P_r(d_0)$ = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of $P_r(d)$, $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly,with the help of the formulas given in the theory section for expt1b,expt1c,expt1d and expt1e you can find the value of the unknown parameter for each of these experiments.
 
 - Step 6:-Now,enter your manually calculated value of the unknown parameter in the box provided in the page.
 
@@ -55,7 +55,7 @@ Follow the steps given below to perform Expt 1B
 <img src="images/instruction5.png"  />
 </div>
 
-- Step 3:- Now,use this formula to calculate n_p. Input Parameters :- P_t = 50 dBm, P_r(d) = -53.37 dBm, P_r(d_0) = -12.58 dBm, d = 1082.2 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 53.37 = 50 + 12.58 + 10 n_p \log_{10}(1082.2/89)$, n_p = 3.759 .
+- Step 3:- Now,use this formula to calculate $n_p$. Input Parameters :- $P_t$ = 50 dBm, $P_r(d)$ = -53.37 dBm, $P_r(d_0)$ = -12.58 dBm, d = 1082.2 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 53.37 = 50 + 12.58 + 10 n_p \log_{10}(1082.2/89)$, $n_p$ = 3.759 .
 
 - Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1B.
 
@@ -71,7 +71,7 @@ Follow the steps given below to perform Expt1C
 <img src="images/instruction6.png"  />
 </div>
 
-- Step 3:- Given h_(BS) = 30m, h_(UT) = 1m, d = 1092 m, n_p = 4.65, P_t = 50 dBm, P_r(d) = -83.22 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-83.22) = 133.22 \text{ dBm}$. Now, use this formula to calculate f_c. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $133.22 = 10 \times 4.65 \times \log_{10}(1092) + 7.8 - 18\log_{10}(30) - 18\log_{10}(1) + 20\log_{10}(f_c)$. So, f_c = 3.44 GHz.
+- Step 3:- Given $h_(BS)$ = 30m, h_(UT) = 1m, d = 1092 m, $n_p$ = 4.65, $P_t$ = 50 dBm, $P_r(d)$ = -83.22 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-83.22) = 133.22 \text{ dBm}$. Now, use this formula to calculate f_c. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $133.22 = 10 \times 4.65 \times \log_{10}(1092) + 7.8 - 18\log_{10}(30) - 18\log_{10}(1) + 20\log_{10}(f_c)$. So, $f_c$ = 3.44 GHz.
 
 Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1C.
 
@@ -81,13 +81,13 @@ Follow the steps given below to perform Expt1D
 
 - Step 1:-Follow Step 2 of Expt 1A and select Expt 1D to perform it.
 
-- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of h_(UT) .You can change the values of transmit power,frequency,transmit antenna height by adjusting the sliders.
+- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of $h_(UT)$ .You can change the values of transmit power,frequency,transmit antenna height by adjusting the sliders.
 
 <div align="center">
 <img src="images/instruction7.png"  />
 </div>
 
-- Step 3:- Given h_(BS) = 30m, f_c = 2GHz, d = 1600m, n_p = 4.02, P_t = 50 dBm, P_r(d) = -51.41 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-51.41) = 101.41 \text{ dBm}$. Now, use this formula to calculate h_(rx). $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $101.41 = 10 \times 4.02 \times \log_{10}(1600) + 7.8 - 18\log_{10}(30) - 18\log_{10}(h_{rx}) + 20\log_{10}(2)$. So, h_(rx) = 6.5 meters.
+- Step 3:- Given $h_(BS)$ = 30m, f_c = 2GHz, d = 1600m, $n_p$ = 4.02, $P_t$ = 50 dBm, $P_r(d)$ = -51.41 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-51.41) = 101.41 \text{ dBm}$. Now, use this formula to calculate $h_(rx)$. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $101.41 = 10 \times 4.02 \times \log_{10}(1600) + 7.8 - 18\log_{10}(30) - 18\log_{10}(h_{rx}) + 20\log_{10}(2)$. So, $h_(rx)$ = 6.5 meters.
 - 
 <div align="center">
 <img src="images/instruction8.png"  />
@@ -95,19 +95,19 @@ Follow the steps given below to perform Expt1D
 
 - Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1D .
 
-### 1.6 Performing Experiment 1E(Calculating h_(BS)) :-
+### 1.6 Performing Experiment 1E(Calculating $h_(BS)$) :-
 
 Follow the steps given below to perform Expt1E
 
 - Step 1:-Follow Step 2 of Expt 1A and select Expt 1E to perform it.
 
-- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of h_(BS). You can change the values of transmit power,receive antenna height,frequency by adjusting the sliders.
+- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of $h_(BS)$. You can change the values of transmit power,receive antenna height,frequency by adjusting the sliders.
 
 <div align="center">
 <img src="images/instruction9.png"  />
 </div>
 
-- Step 3:- Given h_(rx) = 1m, f_c = 2GHz, d = 668m, n_p = 3.12, P_t = 50 dBm, P_r(d) = -29.01 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-29.01) = 79.01 \text{ dBm}$. Now, use this formula to calculate h_(BS). $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(1) + 20\log_{10}(f_c)$. Putting the values, $79.01 = 10 \times 3.12 \times \log_{10}(668) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(2)$. So, h_(tx) = 16.55 meters.
+- Step 3:- Given $h_(rx)$ = 1m, $f_c$ = 2GHz, d = 668m, $n_p$ = 3.12, $P_t$ = 50 dBm, $P_r(d)$ = -29.01 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-29.01) = 79.01 \text{ dBm}$. Now, use this formula to calculate $h_(BS)$. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(1) + 20\log_{10}(f_c)$. Putting the values, $79.01 = 10 \times 3.12 \times \log_{10}(668) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(2)$. So, $h_(tx)$ = 16.55 meters.
 
 <div align="center">
 <img src="images/instruction10.png"  />
