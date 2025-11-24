@@ -55,7 +55,7 @@ Follow the steps given below to perform Expt 1B
 <img src="images/instruction5.png"  />
 </div>
 
-- Step 3:- Now,use this formula to calculate n_p. Input Parameters :- P_t = 50 dBm, P_r(d) = -53.37 dBm, P_r(d_0) = -18.44 dBm, d = 1082.2 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 53.37 = 50 + 12.58 + 10 n_p \log_{10}(1082.2/89)$, n_p = 3.759 .
+- Step 3:- Now,use this formula to calculate n_p. Input Parameters :- P_t = 50 dBm, P_r(d) = -53.37 dBm, P_r(d_0) = -12.58 dBm, d = 1082.2 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 53.37 = 50 + 12.58 + 10 n_p \log_{10}(1082.2/89)$, n_p = 3.759 .
 
 - Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1B.
 
