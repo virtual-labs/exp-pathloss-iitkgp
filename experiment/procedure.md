@@ -24,7 +24,7 @@ Follow the instructions given below to perform the experiments:-
 <img src="images/instruction2.png"  />
 </div>
 
-- Step 5:-Now,calculate the value of the unknown parameter (for e.g.$P_r(d)$) manually by using the formulas given in the theory section. For example:- Given $P_r(d_0)$ = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of $P_r(d)$, $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly,with the help of the formulas given in the theory section for expt1b,expt1c,expt1d and expt1e you can find the value of the unknown parameter for each of these experiments.
+- Step 5:-Now,calculate the value of the unknown parameter (for e.g. $P_r(d)$ ) manually by using the formulas given in the theory section. For example:- Given $P_r(d_0)$ = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of $P_r(d)$, $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly,with the help of the formulas given in the theory section for expt1b,expt1c,expt1d and expt1e you can find the value of the unknown parameter for each of these experiments.
 
 - Step 6:-Now,enter your manually calculated value of the unknown parameter in the box provided in the page.
 
@@ -42,6 +42,7 @@ Follow the instructions given below to perform the experiments:-
 - Step 9:-Now, click on the button SUBMIT to submit your results
 
 - Step 10:-You can redo the experiment by clicking on the button REDO.
+- Step 11:-Go to the next experiment.
 
 ### 1.3 Performing Experiment 1B(Calculating the path loss exponent) :-
 
@@ -71,17 +72,17 @@ Follow the steps given below to perform Expt1C
 <img src="images/instruction6.png"  />
 </div>
 
-- Step 3:- Given $h_(BS)$ = 30m, h_(UT) = 1m, d = 1092 m, $n_p$ = 4.65, $P_t$ = 50 dBm, $P_r(d)$ = -83.22 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-83.22) = 133.22 \text{ dBm}$. Now, use this formula to calculate f_c. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $133.22 = 10 \times 4.65 \times \log_{10}(1092) + 7.8 - 18\log_{10}(30) - 18\log_{10}(1) + 20\log_{10}(f_c)$. So, $f_c$ = 3.44 GHz.
+- Step 3:- Given $h_{BS}$ = 30m, h_{UT} = 3.9m, d = 808.7 m, $n_p$ = 4.65, $P_t$ = 50 dBm, $P_r(d)$ = -66.32 dBm. Now, calculate PL(d) using the formula:- $PL(d) = P_t - P_r(d) = 50 - (-83.22) = 133.22 \text{ dBm}$. Now, use this formula to calculate f_c. $PL(d) = 10 n_p \log_{10}(d) + 7.8 - 18\log_{10}(h_{tx}) - 18\log_{10}(h_{rx}) + 20\log_{10}(f_c)$. Putting the values, $116.32 = 10 \times 4.65 \times \log_{10}(808.7) + 7.8 - 18\log_{10}(30) - 18\log_{10}(1) + 20\log_{10}(f_c)$. So, $f_c$ = 3.35 GHz.
 
 Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1C.
 
-### 1.5 Performing Experiment 1D(Calculating h_(UT) ):-
+### 1.5 Performing Experiment 1D(Calculating $h_{UT}$ ):-
 
 Follow the steps given below to perform Expt1D
 
 - Step 1:-Follow Step 2 of Expt 1A and select Expt 1D to perform it.
 
-- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of $h_(UT)$ .You can change the values of transmit power,frequency,transmit antenna height by adjusting the sliders.
+- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of $h_{UT}$ .You can change the values of transmit power,frequency,transmit antenna height by adjusting the sliders.
 
 <div align="center">
 <img src="images/instruction7.png"  />
@@ -95,7 +96,7 @@ Follow the steps given below to perform Expt1D
 
 - Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1D .
 
-### 1.6 Performing Experiment 1E(Calculating $h_(BS)$) :-
+### 1.6 Performing Experiment 1E(Calculating $h_{BS}$ ) :-
 
 Follow the steps given below to perform Expt1E
 
@@ -117,19 +118,19 @@ Follow the steps given below to perform Expt1E
 
 ### 1.7 Generating and saving the Report :-
 
-- Step 11:Click on the GENERATE REPORT button once you finish do ing all the experiments from Expt 1A to Expt 1E.
+- Step 12:Click on the FINISH button once you finish do ing all the experiments from Expt 1A to Expt 1E, If any changes required click RESET and do all the experiments again.
 
-- Step 12:Click on the button SAVE to save your report.
+- Step 13:Click on the GENERATE REPORT button to save your report.
 <div align="center">
 <img src="images/instruction11.png"  />
 </div>
 
-- Step 13:Finally, a message will appear that your report has been generated successfully.After viewing the message click on the OK button.
+- Step 14:Finally, a message will appear that generating PDF.After viewing the message click on the OK button.
 <div align="center">
 <img src="images/instruction12.png"  />
 </div>
 
-- Step 14:You can view the pdf report of the experiment you have done.
+- Step 15:You can view the pdf report of the experiment you have done in download section.
 <div align="center">
 <img src="images/instruction13.png"  />
 </div>
