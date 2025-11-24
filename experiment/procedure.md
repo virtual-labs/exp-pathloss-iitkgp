@@ -49,13 +49,13 @@ Follow the steps given below to perform Expt 1B
 
 - Step 1:-Follow Step 2 of Expt 1A and select Expt 1B to perform it.
 
-- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of n_p.You can adjust the slider to change the value of transmit power.
+- Step 2:-Follow Step 3-4 of Expt 1A to record the input parameters needed for calculating the value of $n_p$.You can adjust the slider to change the value of transmit power.
 
 <div align="center">
 <img src="images/instruction5.png"  />
 </div>
 
-- Step 3:- Now,use this formula to calculate n_p. Input Parameters :- P_t = 50 dBm, P_r(d) = -54.45 dBm, P_r(d_0) = -12.58 dBm, d = 1156 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 54.45 = 50 + 12.58 + 10 n_p \log_{10}(1156/89)$, n_p = 3.76 .
+- Step 3:- Now,use this formula to calculate n_p. Input Parameters :- P_t = 50 dBm, P_r(d) = -53.37 dBm, P_r(d_0) = -18.44 dBm, d = 1082.2 meters, d_0 = 89 meters. $PL(d) = PL(d_0) + 10 n_p \log_{10}(d/d_0) = P_t(d) - P_r(d) = P_t(d_0) - P_r(d_0) + 10 n_p \log_{10}(d/d_0)$, $50 + 53.37 = 50 + 12.58 + 10 n_p \log_{10}(1082.2/89)$, n_p = 3.759 .
 
 - Step 4:- Follow Steps 6-11 of Expt 1A to submit the results of Expt 1B.
 
