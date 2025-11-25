@@ -4,17 +4,17 @@ Follow the instructions given below to perform the experiments:-
 
 ### 1.1 Starting Experiment 1 :-
 
-- Step 1:-Click on the START button.A page appears with a dialogue box asking for your name.Enter your name and click OK.
+- Step 1:-Click on the START button.A page appears with a dialogue box asking for your name. Enter your name and click OK.
 <div align="center">
 <img src="images/instruction111.png"  />
 </div>
 
-- Step 2:-Now the page appears where you can perform experiment1.There are 5 buttons(Exp1A Exp1B Exp1C Exp1D Exp1E) for five experiments to be performed . Choose which experiment you want to perform and click on any one of the button.
+- Step 2:-Now the page appears where you can perform experiment 1. There are 5 buttons(Exp1A Exp1B Exp1C Exp1D Exp1E) for five experiments to be performed . Choose which experiment you want to perform and click on any one of the button.
 <div align="center">
 <img src="images/instruction1.png"  />
 </div>
 
-### 1.2 Performing Experiment 1A(Calculation of Received Power at a cer-tain Tx-Rx separation distance) :-
+### 1.2 Performing Experiment 1A (Calculation of Received Power at a cer-tain Tx-Rx separation distance) :-
 
 - Step 3:- Drag the mobile by placing the cursor on it and place it at a certain distance from the base station tower.
 
@@ -24,7 +24,7 @@ Follow the instructions given below to perform the experiments:-
 <img src="images/instruction2.png"  />
 </div>
 
-- Step 5:-Now,calculate the value of the unknown parameter (for e.g. $P_r(d)$ ) manually by using the formulas given in the theory section. For example:- Given $P_r(d_0)$ = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of $P_r(d)$, $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly,with the help of the formulas given in the theory section for expt1b,expt1c,expt1d and expt1e you can find the value of the unknown parameter for each of these experiments.
+- Step 5:-Now,calculate the value of the unknown parameter (for an example $P_r(d)$ ) manually by using the formulas given in the theory section. For example:- Given $P_r(d_0)$ = -18.44dB, Tx and Rx separation distance(d)= 773.7 m, d_0 = 55 m. So,using this formula $P_r(d) = P_r(d_0) + 20\log_{10}(d_0/d)$ you can find the value of $P_r(d)$, $P_r(d) = -18.44 + 20\log_{10}(55/773.7) = -41.40 \text{ dBm}$. Similarly, with the help of the formulas given in the theory section for expt1B, expt1C, expt1D and expt1E you can find the value of the unknown parameter for each of these experiments.
 
 - Step 6:-Now,enter your manually calculated value of the unknown parameter in the box provided in the page.
 
@@ -34,12 +34,12 @@ Follow the instructions given below to perform the experiments:-
 <img src="images/instruction3.png"  />
 </div>
 
-- Step 8:-If your manually calculated value of the unknown parameter doesn't match with the com-puted value of the unknown parameter then a message box will appear with the message that your calculated value is wrong and it will return the exact value of the unknown parameter.If your cal-culated value of the unknown parameter is same as the computed value of the unknown parameter then the message box will let you know that your result is correct.
+- Step 8:-If your manually calculated value of the unknown parameter doesn't match with the com-puted value of the unknown parameter then a message box will appear with the message that your calculated value is wrong and it will return the exact value of the unknown parameter. If your cal-culated value of the unknown parameter is same as the computed value of the unknown parameter then the message box will let you know that your result is correct.
 <div align="center">
 <img src="images/instruction4.png"  />
 </div>
 
-- Step 9:-Now, click on the button SUBMIT to submit your results
+- Step 9:-Now, click on the button SUBMIT to submit your results and finish Expe1A.
 
 - Step 10:-You can redo the experiment by clicking on the button REDO.
 - Step 11:-Go to the next experiment.
