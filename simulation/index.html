@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding of Path Loss - Virtual Labs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* --- Base Styles --- */
+        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; } ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .container { width: 100%; max-width: 1200px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden; display: flex; flex-direction: column; }
+        .header { background: linear-gradient(to right, #007bff, #0056b3); padding: 15px 25px; color: white; display: flex; align-items: center; justify-content: space-between; border-top-left-radius: 15px; border-top-right-radius: 15px; flex-wrap: wrap; }
+        .header-left, .header-right { display: flex; align-items: center; }
+        .header-logo { width: 50px; height: 50px; background-color: #fff; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #007bff; font-size: 0.9rem; margin-right: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .header-title { font-size: 1.5rem; font-weight: 600; margin-right: 20px; }
+        .main-content { display: flex; flex-direction: column; padding: 20px; gap: 20px; flex-grow: 1; }
+        .welcome-section { background-color: #f8f9fa; border-radius: 10px; padding: 15px 20px; font-size: 1.1rem; font-weight: 500; color: #343a40; border: 1px solid #e0e0e0; }
+        .experiment-area { display: flex; flex-direction: row; gap: 20px; flex-wrap: wrap; }
+        @media (max-width: 768px) { .experiment-area { flex-direction: column; } .header-title { font-size: 1.2rem; } .header-logo { width: 40px; height: 40px; font-size: 0.7rem; } }
+        .left-panel { flex: 1; min-width: 200px; background-color: #e0f7fa; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); }
+        .right-panel { flex: 2; min-width: 300px; background-color: #c8e6c9; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); }
+        .simulation-area { width: 100%; height: 250px; background: url('bg.png') no-repeat center center; background-size: cover; border-radius: 10px; position: relative; overflow: hidden; margin-bottom: 20px; border: 1px solid #b0c4de; }
+        .base-station { position: absolute; bottom: 0; left: 10%; width: 50px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; z-index: 10; transition: height 0.3s ease; background-color: transparent; }
+        .base-station img { width: 100%; height: 100%; object-fit: fill; object-position: bottom; }
+        .signal-waves { position: absolute; transition: top 0.3s ease, left 0.3s ease; }
+        .signal-wave-circle { position: absolute; border: 2px solid #2ecc71; border-radius: 50%; opacity: 0; animation: pulse 2s infinite ease-out; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease, animation-delay 0.3s ease, animation-duration 0.3s ease; }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 50% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
+        .mobile-unit { position: absolute; bottom: 0; left: 70%; width: 30px; height: 45px; border-radius: 5px; cursor: grab; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 11; transition: bottom 0.3s ease, left 0.3s ease; background-color: transparent; padding-bottom: 30px; }
+        .mobile-unit img { width: 78%; height: 90%; object-fit: fill; object-position: bottom; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); }
+        .mobile-readout { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: max-content; padding: 2px 6px; background-color: rgba(0, 86, 179, 0.7); color: white; font-size: 0.7rem; border-radius: 4px; text-align: center; white-space: pre; line-height: 1.2; z-index: 12; }
+        .distance-display { position: absolute; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; z-index: 12; }
+        .input-calculation-area { background-color: #bbdefb; border-radius: 10px; padding: 20px; width: 100%; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); }
+        .input-group { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .input-group label { font-weight: 500; color: #2c3e50; min-width: 120px; }
+        .input-group input[type="text"], .input-group input[type="range"] { flex-grow: 1; padding: 8px 12px; border: 1px solid #a7d9f7; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.3s ease; }
+        .input-group input[type="text"]:focus, .input-group input[type="range"]:focus { border-color: #007bff; box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); }
+        .button-group { display: flex; gap: 15px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); border: none; outline: none; }
+        .btn-primary { background-color: #007bff; color: white; border: 1px solid #007bff; } .btn-primary:hover { background-color: #0056b3; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+        .btn-secondary { background-color: #6c757d; color: white; border: 1px solid #6c757d; } .btn-secondary:hover { background-color: #5a6268; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+        .btn-success { background-color: #28a745; color: white; border: 1px solid #28a745; } .btn-success:hover { background-color: #218838; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+        .btn-info { background-color: #17a2b8; color: white; border: 1px solid #17a2b8; } .btn-info:hover { background-color: #138496; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+        .btn:disabled { background-color: #adb5bd; color: white; cursor: not-allowed; box-shadow: none; border-color: #adb5bd; } .btn:disabled:hover { background-color: #adb5bd; transform: none; }
+        .btn-finished { background-color: #adb5bd; color: white; cursor: not-allowed; border: 1px solid #adb5bd; box-shadow: none; } .btn-finished:hover { background-color: #adb5bd; transform: none; box-shadow: none; }
+        /* Modal Styles */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(3px); }
+        .modal-content { background-color: #ffffff; padding: 30px; border-radius: 15px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); text-align: center; max-width: 400px; width: 90%; transform: scale(0.95); animation: modalPopIn 0.3s forwards ease-out; position: relative; }
+        @keyframes modalPopIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #007bff; font-size: 1.8rem; font-weight: 700; }
+        .modal-header .icon { margin-right: 10px; font-size: 2.2rem; }
+        .modal-body { margin-bottom: 25px; color: #343a40; font-size: 1.1rem; line-height: 1.6; }
+        .modal-body input { width: calc(100% - 20px); padding: 12px; margin-top: 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 1.1rem; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .modal-body input:focus { border-color: #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+        .modal-footer .btn { min-width: 100px; }
+        .hidden { display: none !important; }
+        /* Slider Styles */
+        input[type="range"] { -webkit-appearance: none; width: 100%; height: 8px; background: #d3d3d3; outline: none; opacity: 0.7; -webkit-transition: .2s; transition: opacity .2s; border-radius: 5px; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: #007bff; cursor: pointer; border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; background: #007bff; cursor: pointer; border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .slider-value { font-weight: 500; color: #007bff; margin-left: 10px; min-width: 60px; text-align: right; }
+
+        /* --- PDF Report Styles --- */
+        /* Container for the report content that will be converted to PDF */
+        #report-content {
+            /* Keep it hidden off-screen */
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 8.5in; /* Standard letter paper width */
+            min-height: 11in; /* Standard letter paper height */
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 0.5in;
+            box-sizing: border-box; /* Ensure padding is included in width/height */
+            font-family: 'Inter', sans-serif; /* Use same font */
+        }
+
+        /* Header styles */
+        #report-content .pdf-header { text-align: left; margin-bottom: 20px; }
+        #report-content .pdf-header h1 { font-size: 18px; font-weight: 700; margin: 0; }
+        #report-content .pdf-header p { font-size: 14px; margin: 4px 0; }
+        #report-content .pdf-date-time { margin-bottom: 30px; }
+        #report-content .pdf-date-time p { font-size: 12px; margin: 2px 0; color: #333; }
+
+        /* Main title styles */
+        #report-content .pdf-main-title { text-align: center; margin-bottom: 10px; }
+        #report-content .pdf-main-title h2 { font-size: 24px; font-weight: 700; color: #005a9c; margin: 0; }
+        #report-content .pdf-main-title p { font-size: 16px; font-weight: 500; margin: 5px 0; }
+
+        /* Table styles to match the image */
+        #report-content table { width: 100%; border-collapse: collapse; margin-top: 20px; border: 2px solid #333; }
+        #report-content th, #report-content td { border: 1px solid #333; padding: 8px; vertical-align: top; font-size: 12px; text-align: left; }
+        #report-content th.pdf-report-header { background-color: #34a853; color: white; font-size: 20px; font-weight: 700; text-align: center; padding: 12px; }
+        #report-content th.pdf-exp-header { background-color: #fbbc05; color: #333; font-size: 13px; font-weight: 700; text-align: center; }
+        #report-content td pre { font-family: 'Inter', sans-serif; font-size: 12px; margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        #report-content td pre .highlight { background-color: #fffbdd; display: block; margin: -8px; padding: 8px; }
+
+        /* Footer styles for signatures and remarks */
+        #report-content .pdf-footer { margin-top: 60px; font-size: 14px; }
+        #report-content .pdf-signatures { display: flex; justify-content: space-between; margin-bottom: 40px; }
+        #report-content .pdf-signature-block { width: 45%; border-top: 1px solid #000; padding-top: 8px; }
+        #report-content .pdf-remarks { margin-top: 20px; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container">
+        <header class="header"> <div class="header-left"></div> <div class="header-right"> <span class="text-lg font-semibold"></span> <div class="ml-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 font-bold text-xl"></div> </div> </header>
+        <main class="main-content">
+            <div id="welcomeSection" class="welcome-section hidden"> Welcome <span id="userNameDisplay"></span> </div>
+            <div id="startButtonSection" class="flex justify-center items-center h-full min-h-[300px]"> <button id="startButton" class="btn btn-primary text-2xl px-8 py-4 rounded-full shadow-lg hover:shadow-xl">START</button> </div>
+            <div id="experimentArea" class="experiment-area hidden">
+                <div class="left-panel">
+                    <button id="exp1AButton" class="btn btn-primary">Exp1A</button>
+                    <button id="exp1BButton" class="btn btn-primary">Exp1B</button>
+                    <button id="exp1CButton" class="btn btn-primary">Exp1C</button>
+                    <button id="exp1DButton" class="btn btn-primary">Exp1D</button>
+                    <button id="exp1EButton" class="btn btn-primary">Exp1E</button>
+                    <button id="restartButton" class="btn btn-secondary mt-4">Restart</button>
+                    <button id="finishButton" class="btn btn-secondary" disabled>Finish</button>
+                    <button id="generateReportButton" class="btn btn-success mt-4 hidden" disabled>Generate Report</button>
+                </div>
+                <div class="right-panel">
+                    <h3 id="currentExperimentTitle" class="text-xl font-semibold text-gray-800 mb-4">Choose your Experiment (Exp1A/1B/1C/1D/1E)</h3>
+                    <div id="simulationArea" class="simulation-area w-full hidden">
+                        <div id="baseStation" class="base-station"> <img src="images/tower.png" alt="Cell Tower" onerror="this.src='https://placehold.co/50x150/7f8c8d/ffffff?text=Tower'"> </div>
+                        <div id="signalWaves" class="signal-waves"></div>
+                        <div id="mobileUnit" class="mobile-unit"> <img src="images/mobile.png" alt="Mobile Phone" onerror="this.src='https://placehold.co/40x70/3498db/ffffff?text=Mobile'"> <div id="mobileReadout" class="mobile-readout hidden"> 0.0 m<br>Pr: 0.00 dBm </div> </div>
+                        <div id="distanceDisplay" class="distance-display">Dist: 0.0 m</div>
+                        <button id="takeReadingButton" class="btn btn-info absolute top-4 right-4 hidden">Take Reading</button>
+                    </div>
+                    <div id="inputCalculationArea" class="input-calculation-area w-full hidden">
+                        <h4 id="calculationTitle" class="text-lg font-semibold text-gray-700 mb-4 text-center">Calculation of Received Power(Pr)</h4>
+                         <div id="exp1AInputs" class="experiment-inputs hidden"> <div class="input-group"> <label for="prD0">Pr(d0):</label> <input type="text" id="prD0" value="-18.44" readonly> <span>dBm</span> </div> <div class="input-group"> <label for="d0">d0:</label> <input type="text" id="d0" value="55.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="dist">Dist:</label> <input type="text" id="dist" value="708.0" readonly> <span>m</span> </div> <div class="input-group mt-4"> <label for="prDCalculated">Pr(d) (dBm):</label> <input type="text" id="prDCalculated" placeholder="Enter your calculated value"> </div> </div>
+                         <div id="exp1BInputs" class="experiment-inputs hidden"> <div class="input-group"> <label for="txPowB">TxPow(dBm):</label> <input type="range" id="txPowB" min="0" max="100" value="50"> <span class="slider-value" id="txPowBValue">50</span> <span>dBm</span> </div> <div class="input-group"> <label for="prD0B">Pr(d0):</label> <input type="text" id="prD0B" value="-12.58" readonly> <span>dBm</span> </div> <div class="input-group"> <label for="d0B">d0:</label> <input type="text" id="d0B" value="89.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="distB">Dist:</label> <input type="text" id="distB" value="1156.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="prDB">Pr(d):</label> <input type="text" id="prDB" value="-54.45" readonly> <span>dBm</span> </div> <div class="input-group mt-4"> <label for="nPCalculated">n (Pathloss Exponent):</label> <input type="text" id="nPCalculated" placeholder="Enter your calculated value"> </div> </div>
+                         <div id="exp1CInputs" class="experiment-inputs hidden"> <div class="input-group"> <label for="txPowC">TxPow(dBm):</label> <input type="range" id="txPowC" min="0" max="100" value="50"> <span class="slider-value" id="txPowCValue">50</span> <span>dBm</span> </div> <div class="input-group"> <label for="hTxC">TxAntenna Height(m):</label> <input type="range" id="hTxC" min="1" max="100" value="30"> <span class="slider-value" id="hTxCValue">30</span> <span>m</span> </div> <div class="input-group"> <label for="hRxC">RxAntenna Height(m):</label> <input type="range" id="hRxC" min="1" max="10" value="1"> <span class="slider-value" id="hRxCValue">1</span> <span>m</span> </div> <div class="input-group"> <label for="distC">Dist:</label> <input type="text" id="distC" value="1092.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="prDC">Pr(d):</label> <input type="text" id="prDC" value="-83.22" readonly> <span>dBm</span> </div> <div class="input-group"> <label for="nPC">n:</label> <input type="text" id="nPC" value="4.65" readonly> </div> <div class="input-group mt-4"> <label for="fcCalculated">fc (GHz):</label> <input type="text" id="fcCalculated" placeholder="Enter your calculated value"> </div> </div>
+                         <div id="exp1DInputs" class="experiment-inputs hidden"> <div class="input-group"> <label for="txPowD">TxPow(dBm):</label> <input type="range" id="txPowD" min="0" max="100" value="50"> <span class="slider-value" id="txPowDValue">50</span> <span>dBm</span> </div> <div class="input-group"> <label for="fcD">fc(GHz):</label> <input type="range" id="fcD" min="0.5" max="5" step="0.1" value="2.0"> <span class="slider-value" id="fcDValue">2.0</span> <span>GHz</span> </div> <div class="input-group"> <label for="hTxD">TxAntenna Height(m):</label> <input type="range" id="hTxD" min="1" max="100" value="30"> <span class="slider-value" id="hTxDValue">30</span> <span>m</span> </div> <div class="input-group"> <label for="distD">Dist:</label> <input type="text" id="distD" value="1600.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="prDD">Pr(d):</label> <input type="text" id="prDD" value="-51.41" readonly> <span>dBm</span> </div> <div class="input-group"> <label for="nPD">n:</label> <input type="text" id="nPD" value="4.02" readonly> </div> <div class="input-group mt-4"> <label for="hRxCalculated">hRx (m):</label> <input type="text" id="hRxCalculated" placeholder="Enter your calculated value"> </div> </div>
+                         <div id="exp1EInputs" class="experiment-inputs hidden"> <div class="input-group"> <label for="txPowE">TxPow(dBm):</label> <input type="range" id="txPowE" min="0" max="100" value="50"> <span class="slider-value" id="txPowEValue">50</span> <span>dBm</span> </div> <div class="input-group"> <label for="fcE">fc(GHz):</label> <input type="range" id="fcE" min="0.5" max="5" step="0.1" value="2.0"> <span class="slider-value" id="fcEValue">2.0</span> <span>GHz</span> </div> <div class="input-group"> <label for="hRxE">RxAntenna Height(m):</label> <input type="range" id="hRxE" min="1" max="10" value="1"> <span class="slider-value" id="hRxEValue">1</span> <span>m</span> </div> <div class="input-group"> <label for="distE">Dist:</label> <input type="text" id="distE" value="668.0" readonly> <span>m</span> </div> <div class="input-group"> <label for="prDE">Pr(d):</label> <input type="text" id="prDE" value="-29.01" readonly> <span>dBm</span> </div> <div class="input-group"> <label for="nPE">n:</label> <input type="text" id="nPE" value="3.12" readonly> </div> <div class="input-group mt-4"> <label for="hTxCalculated">hTx (m):</label> <input type="text" id="hTxCalculated" placeholder="Enter your calculated value"> </div> </div>
+                        <div class="button-group">
+                            <button id="checkButton" class="btn btn-info hidden" disabled>Check</button>
+                            <button id="submitButton" class="btn btn-success hidden" disabled>Submit</button>
+                            <button id="redoButton" class="btn btn-secondary hidden">Redo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="nameInputModal" class="modal-overlay hidden"> <div class="modal-content"> <div class="modal-header"> <span class="icon">❓</span> <h3>Input</h3> </div> <div class="modal-body"> <p>What is your name?</p> <input type="text" id="nameInputField" placeholder="Your Name"> </div> <div class="modal-footer"> <button id="cancelNameInput" class="btn btn-secondary">Cancel</button> <button id="okNameInput" class="btn btn-primary">OK</button> </div> </div> </div>
+     <div id="messageBoxModal" class="modal-overlay hidden"> <div class="modal-content"> <div class="modal-header"> <span class="icon" id="messageIcon">ℹ️</span> <h3 id="messageTitle">Information</h3> </div> <div class="modal-body"> <p id="messageText"></p> </div> <div class="modal-footer"> <button id="okMessageBox" class="btn btn-primary">OK</button> </div> </div> </div>
+
+    <script>
+        // DOM Elements
+        const startButtonSection = document.getElementById('startButtonSection'); const startButton = document.getElementById('startButton'); const nameInputModal = document.getElementById('nameInputModal'); const nameInputField = document.getElementById('nameInputField'); const okNameInput = document.getElementById('okNameInput'); const cancelNameInput = document.getElementById('cancelNameInput'); const welcomeSection = document.getElementById('welcomeSection'); const userNameDisplay = document.getElementById('userNameDisplay'); const experimentArea = document.getElementById('experimentArea'); const currentExperimentTitle = document.getElementById('currentExperimentTitle'); const simulationArea = document.getElementById('simulationArea'); const baseStation = document.getElementById('baseStation'); const signalWaves = document.getElementById('signalWaves'); const mobileUnit = document.getElementById('mobileUnit'); const distanceDisplay = document.getElementById('distanceDisplay'); const takeReadingButton = document.getElementById('takeReadingButton'); const inputCalculationArea = document.getElementById('inputCalculationArea'); const calculationTitle = document.getElementById('calculationTitle'); const checkButton = document.getElementById('checkButton'); const submitButton = document.getElementById('submitButton'); const redoButton = document.getElementById('redoButton'); const messageBoxModal = document.getElementById('messageBoxModal'); const messageIcon = document.getElementById('messageIcon'); const messageTitle = document.getElementById('messageTitle'); const messageText = document.getElementById('messageText'); const okMessageBox = document.getElementById('okMessageBox'); const mobileReadout = document.getElementById('mobileReadout');
+        const exp1AButton = document.getElementById('exp1AButton'); const exp1BButton = document.getElementById('exp1BButton'); const exp1CButton = document.getElementById('exp1CButton'); const exp1DButton = document.getElementById('exp1DButton'); const exp1EButton = document.getElementById('exp1EButton'); const restartButton = document.getElementById('restartButton'); const finishButton = document.getElementById('finishButton'); const generateReportButton = document.getElementById('generateReportButton');
+        const exp1AInputs = document.getElementById('exp1AInputs'); const prD0Input = document.getElementById('prD0'); const d0Input = document.getElementById('d0'); const distInput = document.getElementById('dist'); const prDCalculatedInput = document.getElementById('prDCalculated'); const exp1BInputs = document.getElementById('exp1BInputs'); const txPowB = document.getElementById('txPowB'); const txPowBValue = document.getElementById('txPowBValue'); const prD0B = document.getElementById('prD0B'); const d0B = document.getElementById('d0B'); const distB = document.getElementById('distB'); const prDB = document.getElementById('prDB'); const nPCalculated = document.getElementById('nPCalculated'); const exp1CInputs = document.getElementById('exp1CInputs'); const txPowC = document.getElementById('txPowC'); const txPowCValue = document.getElementById('txPowCValue'); const hTxC = document.getElementById('hTxC'); const hTxCValue = document.getElementById('hTxCValue'); const hRxC = document.getElementById('hRxC'); const hRxCValue = document.getElementById('hRxCValue'); const distC = document.getElementById('distC'); const prDC = document.getElementById('prDC'); const nPC = document.getElementById('nPC'); const fcCalculated = document.getElementById('fcCalculated'); const exp1DInputs = document.getElementById('exp1DInputs'); const txPowD = document.getElementById('txPowD'); const txPowDValue = document.getElementById('txPowDValue'); const fcD = document.getElementById('fcD'); const fcDValue = document.getElementById('fcDValue'); const hTxD = document.getElementById('hTxD'); const hTxDValue = document.getElementById('hTxDValue'); const distD = document.getElementById('distD'); const prDD = document.getElementById('prDD'); const nPD = document.getElementById('nPD'); const hRxCalculated = document.getElementById('hRxCalculated'); const exp1EInputs = document.getElementById('exp1EInputs'); const txPowE = document.getElementById('txPowE'); const txPowEValue = document.getElementById('txPowEValue'); const fcE = document.getElementById('fcE'); const fcEValue = document.getElementById('fcEValue'); const hRxE = document.getElementById('hRxE'); const hRxEValue = document.getElementById('hRxEValue'); const distE = document.getElementById('distE'); const prDE = document.getElementById('prDE'); const nPE = document.getElementById('nPE'); const hTxCalculated = document.getElementById('hTxCalculated');
+
+        // Global Variables
+        let userName = ''; let currentExperiment = ''; let mobileIsDragging = false; let mobileOffsetX, mobileOffsetY; const baseStationX = 0.1; const baseStationWidth = 50; let simulationAreaWidth = 0; const minMobileX = 0; let maxMobileX = 0; let maxMobileBottom = 0; let actualDistance = 0;
+
+        // --- Store initial default values separately ---
+        const initialExperimentDefaults = {
+            exp1A: { Prd0: -18.44, d0: 55.0, Dist: 708.0, PrdActual: -40.37 },
+            exp1B: { TxPow: 50.0, Prd0: -12.58, d0: 89.0, Dist: 1156.0, Prd: -54.45, nPActual: 3.76 },
+            exp1C: { TxPow: 50.0, hTx: 30.0, hRx: 1.0, Dist: 1092.0, Prd: -83.22, nP: 4.65, fcActual: 3.44 },
+            exp1D: { TxPow: 50.0, fc: 2.0, hTx: 30.0, Dist: 1600.0, Prd: -51.41, nP: 4.02, hRxActual: 6.5 },
+            exp1E: { TxPow: 50.0, fc: 2.0, hRx: 1.0, Dist: 668.0, Prd: -29.01, nP: 3.12, hTxActual: 16.55 }
+        };
+
+        // Experiment Results (starts as a copy of defaults + status/entered values)
+        const experimentResults = JSON.parse(JSON.stringify(initialExperimentDefaults));
+        for(const key in experimentResults) { experimentResults[key].status = 'pending'; if(key === 'exp1A') experimentResults[key].PrdEntered = null; if(key === 'exp1B') experimentResults[key].nPEntered = null; if(key === 'exp1C') experimentResults[key].fcEntered = null; if(key === 'exp1D') experimentResults[key].hRxEntered = null; if(key === 'exp1E') experimentResults[key].hTxEntered = null; }
+
+        // This will hold the data *at the moment of submission* for the report
+        let reportSnapshot = JSON.parse(JSON.stringify(initialExperimentDefaults));
+        for(const key in reportSnapshot) { 
+            reportSnapshot[key].status = 'pending'; 
+            if(key === 'exp1A') reportSnapshot[key].PrdEntered = null;
+            if(key === 'exp1B') reportSnapshot[key].nPEntered = null;
+            if(key === 'exp1C') reportSnapshot[key].fcEntered = null;
+            if(key === 'exp1D') reportSnapshot[key].hRxEntered = null;
+            if(key === 'exp1E') reportSnapshot[key].hTxEntered = null;
+        }
+
+        // Helper Functions
+        function showMessageBox(title, message, icon = 'ℹ️') { messageTitle.textContent = title; messageText.textContent = message; messageIcon.textContent = icon; messageBoxModal.classList.remove('hidden'); }
+        function hideAllExperimentInputs() { document.querySelectorAll('.experiment-inputs').forEach(el => el.classList.add('hidden')); checkButton.classList.add('hidden'); submitButton.classList.add('hidden'); redoButton.classList.add('hidden'); takeReadingButton.classList.add('hidden'); simulationArea.classList.add('hidden'); inputCalculationArea.classList.add('hidden'); mobileReadout.classList.add('hidden'); }
+        function mapValue(value, inMin, inMax, outMin, outMax) { return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin; }
+        function updateMobileReadout(dist, pr) { if (currentExperiment === 'exp1A') { mobileReadout.textContent = `${dist} m`; } else { let prText = "Pr: --- dBm"; if (typeof pr === 'number' && !isNaN(pr)) { prText = `Pr: ${pr.toFixed(2)} dBm`; } else if (pr === "N/A (Dist=0)" || pr === "N/A (Invalid Inputs)") { prText = `Pr: N/A`; } mobileReadout.textContent = `${dist} m\n${prText}`; } }
+        function updateMobileHorizontalPositionAndDistance(clientX) { const rect = simulationArea.getBoundingClientRect(); let newX = clientX - rect.left - mobileOffsetX; newX = Math.max(minMobileX, Math.min(newX, maxMobileX)); mobileUnit.style.left = `${newX}px`; const baseStationPixelX = rect.width * baseStationX + baseStationWidth / 2; const mobilePixelX = newX + mobileUnit.offsetWidth / 2; const pixelDistance = Math.abs(mobilePixelX - baseStationPixelX); const clampedMaxSimDistancePixels = Math.max(1, rect.width - baseStationWidth); const maxMeters = 2000; const scaleFactor = maxMeters / clampedMaxSimDistancePixels; actualDistance = (pixelDistance * scaleFactor).toFixed(1); if (pixelDistance < 5) { actualDistance = "0.0"; } distanceDisplay.textContent = `Dist: ${actualDistance} m`; let currentPrValue = null; if (currentExperiment === 'exp1A') { distInput.value = actualDistance; } else if (currentExperiment === 'exp1B') { distB.value = actualDistance; updateExp1BReadings(); currentPrValue = parseFloat(prDB.value); } else if (currentExperiment === 'exp1C') { distC.value = actualDistance; updateExp1CReadings(); currentPrValue = parseFloat(prDC.value); } else if (currentExperiment === 'exp1D') { distD.value = actualDistance; updateExp1DReadings(); currentPrValue = parseFloat(prDD.value); } else if (currentExperiment === 'exp1E') { distE.value = actualDistance; updateExp1EReadings(); currentPrValue = parseFloat(prDE.value); } if (['exp1A', 'exp1B', 'exp1C', 'exp1D', 'exp1E'].includes(currentExperiment)) { updateMobileReadout(actualDistance, currentPrValue); } }
+        function updateMobileVerticalPositionAndRxHeight(clientY) { const rect = simulationArea.getBoundingClientRect(); let newBottom = rect.bottom - clientY - mobileUnit.offsetHeight / 2; newBottom = Math.max(0, Math.min(newBottom, maxMobileBottom)); mobileUnit.style.bottom = `${newBottom}px`; const mappedHrx = mapValue(newBottom, 0, maxMobileBottom, 1, 10); if (currentExperiment === 'exp1C') { hRxC.value = mappedHrx.toFixed(1); hRxCValue.textContent = mappedHrx.toFixed(1); experimentResults.exp1C.hRx = parseFloat(hRxC.value); updateExp1CReadings(); updateMobileReadout(actualDistance, parseFloat(prDC.value)); } else if (currentExperiment === 'exp1E') { hRxE.value = mappedHrx.toFixed(1); hRxEValue.textContent = mappedHrx.toFixed(1); experimentResults.exp1E.hRx = parseFloat(hRxE.value); updateExp1EReadings(); updateMobileReadout(actualDistance, parseFloat(prDE.value)); } }
+        function updateSignalWavesPositionAndSize() { const simulationAreaRect = simulationArea.getBoundingClientRect(); const antennaTipY = simulationAreaRect.height - baseStation.offsetHeight; const antennaTipX = (simulationAreaRect.width * baseStationX) + (baseStationWidth / 2); signalWaves.style.top = `${antennaTipY - (signalWaves.offsetHeight / 2)}px`; signalWaves.style.left = `${antennaTipX - (signalWaves.offsetWidth / 2)}px`; }
+        function updateSignalCircles(fcValue, txPower) { signalWaves.innerHTML = ''; const minFc = 0.5, maxFc = 5.0, minCircles = 1, maxCircles = 5; const numberOfCircles = Math.ceil(mapValue(fcValue, minFc, maxFc, minCircles, maxCircles)); const simWidth = simulationArea.offsetWidth; const antennaCenterX = (simWidth * baseStationX) + (baseStationWidth / 2); const maxPossibleDiameterForOutermostCircle = 2 * (simWidth - antennaCenterX); const minTxPower = 0, maxTxPower = 100, minBaseSize = 20; const maxBaseSize = maxPossibleDiameterForOutermostCircle / (1 + (maxCircles - 1) * 0.4); const baseSize = mapValue(txPower, minTxPower, maxTxPower, minBaseSize, maxBaseSize); const minDuration = 0.5, maxDuration = 2.0; const animationDuration = mapValue(fcValue, minFc, maxFc, maxDuration, minDuration); for (let i = 0; i < numberOfCircles; i++) { const circle = document.createElement('div'); circle.className = 'signal-wave-circle'; const currentCircleSize = baseSize * (1 + i * 0.4); const delay = i * (animationDuration / numberOfCircles); circle.style.width = `${currentCircleSize}px`; circle.style.height = `${currentCircleSize}px`; circle.style.animationDelay = `${delay}s`; circle.style.animationDuration = `${animationDuration}s`; signalWaves.appendChild(circle); } updateSignalWavesPositionAndSize(); }
+        function updateExp1BReadings() { if (currentExperiment !== 'exp1B') return; try { const currentTxPow = parseFloat(txPowB.value); const currentDist = parseFloat(distB.value); const baseTxPow = 50.0; const basePrd0 = initialExperimentDefaults.exp1B.Prd0; const d0 = initialExperimentDefaults.exp1B.d0; const nP = initialExperimentDefaults.exp1B.nPActual; const newPrD0 = basePrd0 + (currentTxPow - baseTxPow); let newPrD; if (currentDist <= 0) { newPrD = NaN; prDB.value = "N/A (Dist=0)"; } else { newPrD = newPrD0 - (10 * nP * Math.log10(currentDist / d0)); prDB.value = newPrD.toFixed(2); } prD0B.value = newPrD0.toFixed(2); updateMobileReadout(actualDistance, newPrD); } catch (e) { console.error("Error updating Exp1B values:", e); prD0B.value = 'Error'; prDB.value = 'Error'; updateMobileReadout(actualDistance, NaN); } }
+        function updateExp1CReadings() { if (currentExperiment !== 'exp1C') return; let newPrdC = NaN; try { const ptC = parseFloat(txPowC.value); const htxC_val = parseFloat(hTxC.value); const hrxC_val = parseFloat(hRxC.value); const distC_val = parseFloat(distC.value); const nPC_val = initialExperimentDefaults.exp1C.nP; const fc_actual = initialExperimentDefaults.exp1C.fcActual; if (distC_val <= 0 || htxC_val <= 0 || hrxC_val <= 0 || fc_actual <= 0) { prDC.value = "N/A (Invalid Inputs)"; newPrdC = "N/A (Invalid Inputs)"; updateMobileReadout(actualDistance, newPrdC); return; } const term1C = 10 * nPC_val * Math.log10(distC_val); const term2C = 7.8; const term3C = 18 * Math.log10(htxC_val); const term4C = 18 * Math.log10(hrxC_val); const term5C = 20 * Math.log10(fc_actual); const PLdC = term1C + term2C - term3C - term4C + term5C; newPrdC = ptC - PLdC; prDC.value = newPrdC.toFixed(2); updateMobileReadout(actualDistance, newPrdC); } catch (e) { console.error("Error updating Exp1C values:", e); prDC.value = 'Error'; updateMobileReadout(actualDistance, NaN); } }
+        function updateExp1DReadings() { if (currentExperiment !== 'exp1D') return; let newPrdD = NaN; try { const ptD = parseFloat(txPowD.value); const fcD_val = parseFloat(fcD.value); const htxD_val = parseFloat(hTxD.value); const distD_val = parseFloat(distD.value); const nPD_val = initialExperimentDefaults.exp1D.nP; const hrx_actual = initialExperimentDefaults.exp1D.hRxActual; if (distD_val <= 0 || htxD_val <= 0 || hrx_actual <= 0 || fcD_val <= 0) { prDD.value = "N/A (Invalid Inputs)"; newPrdD = "N/A (Invalid Inputs)"; updateMobileReadout(actualDistance, newPrdD); return; } const term1D = 10 * nPD_val * Math.log10(distD_val); const term2D = 7.8; const term3D = 18 * Math.log10(htxD_val); const term4D = 18 * Math.log10(hrx_actual); const term5D = 20 * Math.log10(fcD_val); const PLdD = term1D + term2D - term3D - term4D + term5D; newPrdD = ptD - PLdD; prDD.value = newPrdD.toFixed(2); updateMobileReadout(actualDistance, newPrdD); } catch (e) { console.error("Error updating Exp1D values:", e); prDD.value = 'Error'; updateMobileReadout(actualDistance, NaN); } }
+        function updateExp1EReadings() { if (currentExperiment !== 'exp1E') return; let newPrdE = NaN; try { const ptE = parseFloat(txPowE.value); const fcE_val = parseFloat(fcE.value); const hrxE_val = parseFloat(hRxE.value); const distE_val = parseFloat(distE.value); const nPE_val = initialExperimentDefaults.exp1E.nP; const htx_actual = initialExperimentDefaults.exp1E.hTxActual; if (distE_val <= 0 || htx_actual <= 0 || hrxE_val <= 0 || fcE_val <= 0) { prDE.value = "N/A (Invalid Inputs)"; newPrdE = "N/A (Invalid Inputs)"; updateMobileReadout(actualDistance, newPrdE); return; } const term1E = 10 * nPE_val * Math.log10(distE_val); const term2E = 7.8; const term3E = 18 * Math.log10(htx_actual); const term4E = 18 * Math.log10(hrxE_val); const term5E = 20 * Math.log10(fcE_val); const PLdE = term1E + term2E - term3E - term4E + term5E; newPrdE = ptE - PLdE; prDE.value = newPrdE.toFixed(2); updateMobileReadout(actualDistance, newPrdE); } catch (e) { console.error("Error updating Exp1E values:", e); prDE.value = 'Error'; updateMobileReadout(actualDistance, NaN); } }
+
+        // Event Listeners
+         startButton.addEventListener('click', () => { nameInputModal.classList.remove('hidden'); nameInputField.value = ''; nameInputField.focus(); }); okNameInput.addEventListener('click', () => { userName = nameInputField.value.trim(); if (userName) { nameInputModal.classList.add('hidden'); startButtonSection.classList.add('hidden'); welcomeSection.classList.remove('hidden'); userNameDisplay.textContent = userName; experimentArea.classList.remove('hidden'); } else { showMessageBox('Error', 'Please enter your name.', '⚠️'); } }); cancelNameInput.addEventListener('click', () => { nameInputModal.classList.add('hidden'); }); okMessageBox.addEventListener('click', () => { messageBoxModal.classList.add('hidden'); }); mobileUnit.addEventListener('mousedown', (e) => { mobileIsDragging = true; const rect = mobileUnit.getBoundingClientRect(); mobileOffsetX = e.clientX - rect.left; mobileOffsetY = e.clientY - rect.top; document.body.style.cursor = 'grabbing'; }); document.addEventListener('mousemove', (e) => { if (!mobileIsDragging) return; updateMobileHorizontalPositionAndDistance(e.clientX); updateMobileVerticalPositionAndRxHeight(e.clientY); }); document.addEventListener('mouseup', () => { if (mobileIsDragging) { mobileIsDragging = false; document.body.style.cursor = 'default'; } }); mobileUnit.addEventListener('touchstart', (e) => { mobileIsDragging = true; const rect = mobileUnit.getBoundingClientRect(); mobileOffsetX = e.touches[0].clientX - rect.left; mobileOffsetY = e.touches[0].clientY - rect.top; e.preventDefault(); }); document.addEventListener('touchmove', (e) => { if (!mobileIsDragging) return; updateMobileHorizontalPositionAndDistance(e.touches[0].clientX); updateMobileVerticalPositionAndRxHeight(e.touches[0].clientY); e.preventDefault(); }); document.addEventListener('touchend', () => { mobileIsDragging = false; });
+
+        // Experiment Selection Logic
+        function selectExperiment(expId) { currentExperiment = expId; hideAllExperimentInputs(); simulationArea.classList.remove('hidden'); inputCalculationArea.classList.remove('hidden'); takeReadingButton.classList.remove('hidden'); checkButton.classList.remove('hidden'); submitButton.classList.remove('hidden'); redoButton.classList.remove('hidden'); checkButton.disabled = true; submitButton.disabled = true; if (['exp1A', 'exp1B', 'exp1C', 'exp1D', 'exp1E'].includes(expId)) { mobileReadout.classList.remove('hidden'); } const rect = simulationArea.getBoundingClientRect(); simulationAreaWidth = rect.width; maxMobileX = simulationAreaWidth - mobileUnit.offsetWidth; maxMobileBottom = simulationArea.offsetHeight - 70; let initialMobileX = simulationAreaWidth * 0.7; initialMobileX = Math.max(minMobileX, Math.min(initialMobileX, maxMobileX)); mobileUnit.style.left = `${initialMobileX}px`; let currentHtxForVisual = 30, currentHrxForVisual = 1, currentTxPowerForVisual = 50, currentFcForVisual = 2.0; switch (expId) { case 'exp1A': currentExperimentTitle.textContent = 'Experiment 1A: Calculation of Received Power'; calculationTitle.textContent = 'Calculation of Received Power(Pr)'; exp1AInputs.classList.remove('hidden'); prD0Input.value = experimentResults.exp1A.Prd0; d0Input.value = experimentResults.exp1A.d0; distInput.value = experimentResults.exp1A.Dist; prDCalculatedInput.value = experimentResults.exp1A.PrdEntered || ''; break; case 'exp1B': currentExperimentTitle.textContent = 'Experiment 1B: Calculation of Pathloss Exponent'; calculationTitle.textContent = 'Calculation of Pathloss Exponent(n)'; exp1BInputs.classList.remove('hidden'); txPowB.value = experimentResults.exp1B.TxPow; txPowBValue.textContent = experimentResults.exp1B.TxPow; d0B.value = experimentResults.exp1B.d0; distB.value = experimentResults.exp1B.Dist; nPCalculated.value = experimentResults.exp1B.nPEntered || ''; currentTxPowerForVisual = experimentResults.exp1B.TxPow; updateExp1BReadings(); break; case 'exp1C': currentExperimentTitle.textContent = 'Experiment 1C: Calculation of Carrier Frequency'; calculationTitle.textContent = 'Calculation of Carrier Frequency(fc)'; exp1CInputs.classList.remove('hidden'); txPowC.value = experimentResults.exp1C.TxPow; txPowCValue.textContent = experimentResults.exp1C.TxPow; hTxC.value = experimentResults.exp1C.hTx; hTxCValue.textContent = experimentResults.exp1C.hTx; hRxC.value = experimentResults.exp1C.hRx; hRxCValue.textContent = experimentResults.exp1C.hRx; distC.value = experimentResults.exp1C.Dist; nPC.value = experimentResults.exp1C.nP; fcCalculated.value = experimentResults.exp1C.fcEntered || ''; currentHtxForVisual = experimentResults.exp1C.hTx; currentHrxForVisual = experimentResults.exp1C.hRx; currentTxPowerForVisual = experimentResults.exp1C.TxPow; currentFcForVisual = experimentResults.exp1C.fcActual; updateExp1CReadings(); break; case 'exp1D': currentExperimentTitle.textContent = 'Experiment 1D: Calculation of Receiver Antenna Height'; calculationTitle.textContent = 'Estimation of Mobile Antenna Height(hRx)'; exp1DInputs.classList.remove('hidden'); txPowD.value = experimentResults.exp1D.TxPow; txPowDValue.textContent = experimentResults.exp1D.TxPow; fcD.value = experimentResults.exp1D.fc; fcDValue.textContent = experimentResults.exp1D.fc; hTxD.value = experimentResults.exp1D.hTx; hTxDValue.textContent = experimentResults.exp1D.hTx; distD.value = experimentResults.exp1D.Dist; nPD.value = experimentResults.exp1D.nP; hRxCalculated.value = experimentResults.exp1D.hRxEntered || ''; currentHtxForVisual = experimentResults.exp1D.hTx; currentHrxForVisual = 1; currentTxPowerForVisual = experimentResults.exp1D.TxPow; currentFcForVisual = experimentResults.exp1D.fc; updateExp1DReadings(); break; case 'exp1E': currentExperimentTitle.textContent = 'Experiment 1E: Calculation of BS Antenna Height'; calculationTitle.textContent = 'Estimation of BS Antenna Height(hTx)'; exp1EInputs.classList.remove('hidden'); txPowE.value = experimentResults.exp1E.TxPow; txPowEValue.textContent = experimentResults.exp1E.TxPow; fcE.value = experimentResults.exp1E.fc; fcEValue.textContent = experimentResults.exp1E.fc; hRxE.value = experimentResults.exp1E.hRx; hRxEValue.textContent = experimentResults.exp1E.hRx; distE.value = experimentResults.exp1E.Dist; nPE.value = experimentResults.exp1E.nP; hTxCalculated.value = experimentResults.exp1E.hTxEntered || ''; currentHtxForVisual = 30; currentHrxForVisual = experimentResults.exp1E.hRx; currentTxPowerForVisual = experimentResults.exp1E.TxPow; currentFcForVisual = experimentResults.exp1E.fc; updateExp1EReadings(); break; } updateMobileHorizontalPositionAndDistance(rect.left + initialMobileX + mobileUnit.offsetWidth / 2); baseStation.style.height = `${mapValue(currentHtxForVisual, 1, 100, 50, 250)}px`; mobileUnit.style.bottom = `${mapValue(currentHrxForVisual, 1, 10, 0, maxMobileBottom)}px`; setTimeout(() => { updateSignalCircles(currentFcForVisual, currentTxPowerForVisual); }, 0); }
+        exp1AButton.addEventListener('click', () => selectExperiment('exp1A')); exp1BButton.addEventListener('click', () => selectExperiment('exp1B')); exp1CButton.addEventListener('click', () => selectExperiment('exp1C')); exp1DButton.addEventListener('click', () => selectExperiment('exp1D')); exp1EButton.addEventListener('click', () => selectExperiment('exp1E'));
+
+        // Slider Event Listeners
+         txPowB.addEventListener('input', () => { txPowBValue.textContent = txPowB.value; experimentResults.exp1B.TxPow = parseFloat(txPowB.value); updateSignalCircles(initialExperimentDefaults.exp1B.fc || 2.0, parseFloat(txPowB.value)); updateExp1BReadings(); }); txPowC.addEventListener('input', () => { txPowCValue.textContent = txPowC.value; experimentResults.exp1C.TxPow = parseFloat(txPowC.value); updateSignalCircles(initialExperimentDefaults.exp1C.fcActual || 2.0, parseFloat(txPowC.value)); updateExp1CReadings(); }); hTxC.addEventListener('input', () => { hTxCValue.textContent = hTxC.value; experimentResults.exp1C.hTx = parseFloat(hTxC.value); baseStation.style.height = `${mapValue(parseFloat(hTxC.value), 1, 100, 50, 250)}px`; updateSignalWavesPositionAndSize(); updateExp1CReadings(); }); hRxC.addEventListener('input', () => { hRxCValue.textContent = hRxC.value; experimentResults.exp1C.hRx = parseFloat(hRxC.value); const mappedBottom = mapValue(parseFloat(hRxC.value), 1, 10, 0, maxMobileBottom); mobileUnit.style.bottom = `${mappedBottom}px`; updateExp1CReadings(); }); hTxD.addEventListener('input', () => { hTxDValue.textContent = hTxD.value; experimentResults.exp1D.hTx = parseFloat(hTxD.value); baseStation.style.height = `${mapValue(parseFloat(hTxD.value), 1, 100, 50, 250)}px`; updateSignalWavesPositionAndSize(); updateExp1DReadings(); }); txPowD.addEventListener('input', () => { txPowDValue.textContent = txPowD.value; experimentResults.exp1D.TxPow = parseFloat(txPowD.value); updateSignalCircles(experimentResults.exp1D.fc || 2.0, parseFloat(txPowD.value)); updateExp1DReadings(); }); fcD.addEventListener('input', () => { fcDValue.textContent = fcD.value; experimentResults.exp1D.fc = parseFloat(fcD.value); updateSignalCircles(parseFloat(fcD.value), experimentResults.exp1D.TxPow); updateExp1DReadings(); }); txPowE.addEventListener('input', () => { txPowEValue.textContent = txPowE.value; experimentResults.exp1E.TxPow = parseFloat(txPowE.value); updateSignalCircles(experimentResults.exp1E.fc || 2.0, parseFloat(txPowE.value)); updateExp1EReadings(); }); fcE.addEventListener('input', () => { fcEValue.textContent = fcE.value; experimentResults.exp1E.fc = parseFloat(fcE.value); updateSignalCircles(parseFloat(fcE.value), experimentResults.exp1E.TxPow); updateExp1EReadings(); }); hRxE.addEventListener('input', () => { hRxEValue.textContent = hRxE.value; experimentResults.exp1E.hRx = parseFloat(hRxE.value); mobileUnit.style.bottom = `${mapValue(parseFloat(hRxE.value), 1, 10, 0, maxMobileBottom)}px`; updateExp1EReadings(); });
+
+        // Take Reading Button Listener
+        takeReadingButton.addEventListener('click', () => {
+            if (currentExperiment === 'exp1A') {
+                experimentResults.exp1A.Dist = parseFloat(actualDistance);
+                distInput.value = actualDistance;
+            } else if (currentExperiment === 'exp1B') {
+                experimentResults.exp1B.Dist = parseFloat(actualDistance);
+                distB.value = actualDistance;
+                updateExp1BReadings();
+            } else if (currentExperiment === 'exp1C') {
+                experimentResults.exp1C.Dist = parseFloat(actualDistance);
+                distC.value = actualDistance;
+                updateExp1CReadings();
+            } else if (currentExperiment === 'exp1D') {
+                experimentResults.exp1D.Dist = parseFloat(actualDistance);
+                distD.value = actualDistance;
+                updateExp1DReadings();
+            } else if (currentExperiment === 'exp1E') {
+                experimentResults.exp1E.Dist = parseFloat(actualDistance);
+                distE.value = actualDistance;
+                updateExp1EReadings();
+            }
+            showMessageBox('Reading Taken', `Distance set to ${actualDistance} m. Proceed with calculations.`, '✅');
+            checkButton.disabled = false;
+        });
+
+        // Check Button Listener
+        checkButton.addEventListener('click', () => {
+            let userValue, actualValue, isCorrect = false, resultKey = '', inputField;
+            switch (currentExperiment) {
+                case 'exp1A':
+                    userValue = parseFloat(prDCalculatedInput.value);
+                    if (isNaN(userValue)) { showMessageBox('Error', 'Please enter a valid number.', '⚠️'); return; }
+                    actualValue = parseFloat(prD0Input.value) + 20 * Math.log10(parseFloat(d0Input.value) / parseFloat(distInput.value));
+                    isCorrect = Math.abs(userValue - actualValue) < 0.01;
+                    resultKey = 'Pr(d)';
+                    inputField = prDCalculatedInput;
+                    experimentResults.exp1A.PrdEntered = userValue;
+                    break;
+                case 'exp1B':
+                    userValue = parseFloat(nPCalculated.value);
+                    if (isNaN(userValue)) { showMessageBox('Error', 'Please enter a valid number.', '⚠️'); return; }
+                    actualValue = (parseFloat(prD0B.value) - parseFloat(prDB.value)) / (10 * Math.log10(parseFloat(distB.value) / parseFloat(d0B.value)));
+                    isCorrect = Math.abs(userValue - actualValue) < 0.01;
+                    resultKey = 'n';
+                    inputField = nPCalculated;
+                    experimentResults.exp1B.nPEntered = userValue;
+                    break;
+                case 'exp1C':
+                    userValue = parseFloat(fcCalculated.value);
+                    if (isNaN(userValue)) { showMessageBox('Error', 'Please enter a valid number.', '⚠️'); return; }
+                    const ptC = parseFloat(txPowC.value), htxC = parseFloat(hTxC.value), hrxC = parseFloat(hRxC.value), distC_val = parseFloat(distC.value), prdC = parseFloat(prDC.value), nPC_val = parseFloat(nPC.value);
+                    const PLdC = ptC - prdC;
+                    const term1C = 10 * nPC_val * Math.log10(distC_val); const term2C = 7.8; const term3C = 18 * Math.log10(htxC); const term4C = 18 * Math.log10(hrxC);
+                    const logFc = (PLdC - (term1C + term2C - term3C - term4C)) / 20;
+                    actualValue = Math.pow(10, logFc);
+                    isCorrect = Math.abs(userValue - actualValue) < 0.01;
+                    resultKey = 'fc';
+                    inputField = fcCalculated;
+                    experimentResults.exp1C.fcEntered = userValue;
+                    break;
+                case 'exp1D':
+                    userValue = parseFloat(hRxCalculated.value);
+                    if (isNaN(userValue)) { showMessageBox('Error', 'Please enter a valid number.', '⚠️'); return; }
+                    const ptD = parseFloat(txPowD.value), fcD_val = parseFloat(fcD.value), htxD = parseFloat(hTxD.value), distD_val = parseFloat(distD.value), prdD = parseFloat(prDD.value), nPD_val = parseFloat(nPD.value);
+                    const PLdD = ptD - prdD;
+                    const term1D = 10 * nPD_val * Math.log10(distD_val); const term2D = 7.8; const term3D = 18 * Math.log10(htxD); const term4D = 20 * Math.log10(fcD_val);
+                    const logHrx = (term1D + term2D - term3D + term4D - PLdD) / 18;
+                    actualValue = Math.pow(10, logHrx);
+                    isCorrect = Math.abs(userValue - actualValue) < 0.01;
+                    resultKey = 'hRx';
+                    inputField = hRxCalculated;
+                    experimentResults.exp1D.hRxEntered = userValue;
+                    break;
+                case 'exp1E':
+                    userValue = parseFloat(hTxCalculated.value);
+                    if (isNaN(userValue)) { showMessageBox('Error', 'Please enter a valid number.', '⚠️'); return; }
+                    const ptE = parseFloat(txPowE.value), fcE_val = parseFloat(fcE.value), hrxE = parseFloat(hRxE.value), distE_val = parseFloat(distE.value), prdE = parseFloat(prDE.value), nPE_val = parseFloat(nPE.value);
+                    const PLdE = ptE - prdE;
+                    const term1E = 10 * nPE_val * Math.log10(distE_val); const term2E = 7.8; const term3E = 18 * Math.log10(hrxE); const term4E = 20 * Math.log10(fcE_val);
+                    const logHtx = (term1E + term2E - term3E + term4E - PLdE) / 18;
+                    actualValue = Math.pow(10, logHtx);
+                    isCorrect = Math.abs(userValue - actualValue) < 0.01;
+                    resultKey = 'hTx';
+                    inputField = hTxCalculated;
+                    experimentResults.exp1E.hTxEntered = userValue;
+                    break;
+                default:
+                    showMessageBox('Error', 'No experiment selected.', '⚠️');
+                    return;
+            }
+
+            if (isCorrect) {
+                showMessageBox('Answer Check', 'Congrats! Correct answer!', '✅');
+                experimentResults[currentExperiment].status = 'correct';
+                inputField.classList.add('border-green-500');
+                inputField.classList.remove('border-red-500');
+            } else {
+                showMessageBox('Answer Check', `Sorry! Wrong answer! ${resultKey} = ${actualValue.toFixed(2)}`, '❌');
+                experimentResults[currentExperiment].status = 'incorrect';
+                inputField.classList.add('border-red-500');
+                inputField.classList.remove('border-green-500');
+            }
+
+            submitButton.disabled = false;
+        });
+
+        // --- checkAndEnableFinishButtons Function ---
+        function checkAndEnableFinishButtons() {
+            let allDone = true;
+            for (const expKey in experimentResults) {
+                if (experimentResults[expKey].status !== 'submitted' && experimentResults[expKey].status !== 'correct') {
+                    allDone = false;
+                    break;
+                }
+            }
+
+            // Only enable if allDone AND it's not already been clicked/disabled
+            if (allDone && finishButton.disabled) {
+                finishButton.disabled = false;
+                // If all done, make button enabled and BLUE
+                finishButton.classList.remove('btn-secondary');
+                finishButton.classList.add('btn-primary');
+            } else if (!allDone) {
+                // Otherwise, make button disabled and GRAY
+                finishButton.disabled = true;
+                finishButton.classList.add('btn-secondary');
+                finishButton.classList.remove('btn-primary');
+            }
+
+            // Keep generate report button hidden until Finish is clicked
+            generateReportButton.classList.add('hidden');
+            generateReportButton.disabled = true;
+        }
+
+        // This function copies the *current* state of an experiment
+        // into the reportSnapshot object.
+        function captureSnapshot(expId) {
+            const currentData = experimentResults[expId]; // Get live data
+            const snapshotData = reportSnapshot[expId];   // Get snapshot object
+            
+            // Copy ALL relevant values from live data to snapshot
+            switch(expId) {
+                case 'exp1A':
+                    snapshotData.Prd0 = currentData.Prd0;
+                    snapshotData.d0 = currentData.d0;
+                    snapshotData.Dist = currentData.Dist;
+                    snapshotData.PrdEntered = currentData.PrdEntered;
+                    snapshotData.PrdActual = currentData.PrdActual;
+                    snapshotData.status = currentData.status;
+                    break;
+                case 'exp1B':
+                    snapshotData.TxPow = currentData.TxPow;
+                    snapshotData.Prd0 = currentData.Prd0;
+                    snapshotData.d0 = currentData.d0;
+                    snapshotData.Dist = currentData.Dist;
+                    snapshotData.Prd = currentData.Prd;
+                    snapshotData.nPEntered = currentData.nPEntered;
+                    snapshotData.nPActual = currentData.nPActual;
+                    snapshotData.status = currentData.status;
+                    break;
+                case 'exp1C':
+                    snapshotData.TxPow = currentData.TxPow;
+                    snapshotData.hTx = currentData.hTx;
+                    snapshotData.hRx = currentData.hRx;
+                    snapshotData.Dist = currentData.Dist;
+                    snapshotData.Prd = currentData.Prd;
+                    snapshotData.nP = currentData.nP;
+                    snapshotData.fcEntered = currentData.fcEntered;
+                    snapshotData.fcActual = currentData.fcActual;
+                    snapshotData.status = currentData.status;
+                    break;
+                case 'exp1D':
+                    snapshotData.fc = currentData.fc;
+                    snapshotData.TxPow = currentData.TxPow;
+                    snapshotData.hTx = currentData.hTx;
+                    snapshotData.Dist = currentData.Dist;
+                    snapshotData.Prd = currentData.Prd;
+                    snapshotData.nP = currentData.nP;
+                    snapshotData.hRxEntered = currentData.hRxEntered;
+                    snapshotData.hRxActual = currentData.hRxActual;
+                    snapshotData.status = currentData.status;
+                    break;
+                case 'exp1E':
+                    snapshotData.fc = currentData.fc;
+                    snapshotData.TxPow = currentData.TxPow;
+                    snapshotData.hRx = currentData.hRx;
+                    snapshotData.Dist = currentData.Dist;
+                    snapshotData.Prd = currentData.Prd;
+                    snapshotData.nP = currentData.nP;
+                    snapshotData.hTxEntered = currentData.hTxEntered;
+                    snapshotData.hTxActual = currentData.hTxActual;
+                    snapshotData.status = currentData.status;
+                    break;
+            }
+        }
+
+        // Submit Button Listener
+        submitButton.addEventListener('click', () => { 
+            if (currentExperiment) { 
+                // This block ensures the *latest* slider values are in experimentResults
+                if (currentExperiment === 'exp1B') { 
+                    experimentResults.exp1B.TxPow = parseFloat(txPowB.value); 
+                    experimentResults.exp1B.Prd0 = parseFloat(prD0B.value); 
+                    experimentResults.exp1B.Dist = parseFloat(distB.value); 
+                    experimentResults.exp1B.Prd = parseFloat(prDB.value); 
+                } else if (currentExperiment === 'exp1C') { 
+                    experimentResults.exp1C.TxPow = parseFloat(txPowC.value); 
+                    experimentResults.exp1C.hTx = parseFloat(hTxC.value); 
+                    experimentResults.exp1C.hRx = parseFloat(hRxC.value); 
+                    experimentResults.exp1C.Dist = parseFloat(distC.value); 
+                    experimentResults.exp1C.Prd = parseFloat(prDC.value); 
+                } else if (currentExperiment === 'exp1D') { 
+                    experimentResults.exp1D.TxPow = parseFloat(txPowD.value); 
+                    experimentResults.exp1D.fc = parseFloat(fcD.value); 
+                    experimentResults.exp1D.hTx = parseFloat(hTxD.value); 
+                    experimentResults.exp1D.Dist = parseFloat(distD.value); 
+                    experimentResults.exp1D.Prd = parseFloat(prDD.value); 
+                } else if (currentExperiment === 'exp1E') { 
+                    experimentResults.exp1E.TxPow = parseFloat(txPowE.value); 
+                    experimentResults.exp1E.fc = parseFloat(fcE.value); 
+                    experimentResults.exp1E.hRx = parseFloat(hRxE.value); 
+                    experimentResults.exp1E.Dist = parseFloat(distE.value); 
+                    experimentResults.exp1E.Prd = parseFloat(prDE.value); 
+                } 
+                
+                // This block ensures the *latest* typed-in answer is in experimentResults
+                try { 
+                    switch (currentExperiment) { 
+                        case 'exp1A': if (experimentResults.exp1A.PrdEntered === null || isNaN(parseFloat(prDCalculatedInput.value))) { experimentResults.exp1A.PrdEntered = parseFloat(prDCalculatedInput.value); } break; // Ensure we capture NaN if input is bad
+                        case 'exp1B': if (experimentResults.exp1B.nPEntered === null || isNaN(parseFloat(nPCalculated.value))) { experimentResults.exp1B.nPEntered = parseFloat(nPCalculated.value); } break; 
+                        case 'exp1C': if (experimentResults.exp1C.fcEntered === null || isNaN(parseFloat(fcCalculated.value))) { experimentResults.exp1C.fcEntered = parseFloat(fcCalculated.value); } break; 
+                        case 'exp1D': if (experimentResults.exp1D.hRxEntered === null || isNaN(parseFloat(hRxCalculated.value))) { experimentResults.exp1D.hRxEntered = parseFloat(hRxCalculated.value); } break; 
+                        case 'exp1E': if (experimentResults.exp1E.hTxEntered === null || isNaN(parseFloat(hTxCalculated.value))) { experimentResults.exp1E.hTxEntered = parseFloat(hTxCalculated.value); } break; 
+                    } 
+                } catch (e) { console.warn("Could not parse entered value on submit.", e); } 
+                
+                // Update the status (if not already 'correct')
+                if (experimentResults[currentExperiment].status !== 'correct') { 
+                    // Check if the entered value is valid before marking as submitted/incorrect
+                    let enteredValueIsValid = !isNaN(experimentResults[currentExperiment][Object.keys(experimentResults[currentExperiment]).find(k => k.endsWith('Entered'))]);
+                    if (enteredValueIsValid) {
+                        experimentResults[currentExperiment].status = 'submitted'; // Mark as submitted initially
+                    } else {
+                         experimentResults[currentExperiment].status = 'pending'; // Stay pending if input was invalid
+                         showMessageBox('Error', 'Invalid input. Please enter a number before submitting.', '⚠️');
+                         return; // Don't proceed with submission if input is bad
+                    }
+                } 
+
+                // Now that experimentResults is fully updated for this submit,
+                // capture that data into our snapshot.
+                captureSnapshot(currentExperiment);
+
+                showMessageBox('Submission', `Results for ${currentExperiment} submitted successfully!`, '✅'); 
+                
+                // Disable the button
+                let experimentBtn; 
+                switch (currentExperiment) { 
+                    case 'exp1A': experimentBtn = exp1AButton; break; 
+                    case 'exp1B': experimentBtn = exp1BButton; break; 
+                    case 'exp1C': experimentBtn = exp1CButton; break; 
+                    case 'exp1D': experimentBtn = exp1DButton; break; 
+                    case 'exp1E': experimentBtn = exp1EButton; break; 
+                } 
+                if (experimentBtn) { 
+                    experimentBtn.textContent = 'Finished'; 
+                    experimentBtn.classList.remove('btn-primary', 'btn-secondary', 'btn-success', 'btn-info'); 
+                    experimentBtn.classList.add('btn-finished'); 
+                    experimentBtn.disabled = true; 
+                } 
+                checkAndEnableFinishButtons(); 
+            } else { 
+                showMessageBox('Error', 'No experiment to submit.', '⚠️'); 
+            } 
+        });
+
+        // Redo Button Listener
+        redoButton.addEventListener('click', () => { 
+            if (currentExperiment) { 
+                const defaults = initialExperimentDefaults[currentExperiment]; 
+                for(const key in defaults) { 
+                    experimentResults[currentExperiment][key] = defaults[key]; 
+                } 
+                experimentResults[currentExperiment].status = 'pending'; 
+                if(currentExperiment === 'exp1A') experimentResults[currentExperiment].PrdEntered = null; 
+                if(currentExperiment === 'exp1B') experimentResults[currentExperiment].nPEntered = null; 
+                if(currentExperiment === 'exp1C') experimentResults[currentExperiment].fcEntered = null; 
+                if(currentExperiment === 'exp1D') experimentResults[currentExperiment].hRxEntered = null; 
+                if(currentExperiment === 'exp1E') experimentResults[currentExperiment].hTxEntered = null; 
+                
+                // Also reset the snapshot for this experiment
+                captureSnapshot(currentExperiment); 
+
+                let inputField; 
+                if(currentExperiment === 'exp1A') inputField = prDCalculatedInput; 
+                if(currentExperiment === 'exp1B') inputField = nPCalculated; 
+                if(currentExperiment === 'exp1C') inputField = fcCalculated; 
+                if(currentExperiment === 'exp1D') inputField = hRxCalculated; 
+                if(currentExperiment === 'exp1E') inputField = hTxCalculated; 
+                if (inputField) inputField.classList.remove('border-green-500', 'border-red-500'); 
+                
+                selectExperiment(currentExperiment); 
+                
+                let experimentBtn; 
+                switch (currentExperiment) { 
+                    case 'exp1A': experimentBtn = exp1AButton; break; 
+                    case 'exp1B': experimentBtn = exp1BButton; break; 
+                    case 'exp1C': experimentBtn = exp1CButton; break; 
+                    case 'exp1D': experimentBtn = exp1DButton; break; 
+                    case 'exp1E': experimentBtn = exp1EButton; break; 
+                } 
+                if (experimentBtn) { 
+                    experimentBtn.textContent = currentExperiment.toUpperCase(); 
+                    experimentBtn.classList.remove('btn-finished'); 
+                    experimentBtn.classList.add('btn-primary'); 
+                    experimentBtn.disabled = false; 
+                } 
+                checkAndEnableFinishButtons(); 
+                showMessageBox('Redo', `Experiment ${currentExperiment} reset to initial values.`, '🔄'); 
+            } else { 
+                showMessageBox('Error', 'No experiment selected to redo.', '⚠️'); 
+            } 
+        });
+
+        // Restart Button Listener
+         restartButton.addEventListener('click', () => {
+             userName = ''; currentExperiment = '';
+             
+             // Reset live data
+             Object.assign(experimentResults, JSON.parse(JSON.stringify(initialExperimentDefaults)));
+             for(const key in experimentResults) {
+                 experimentResults[key].status = 'pending';
+                 if(key === 'exp1A') experimentResults[key].PrdEntered = null;
+                 if(key === 'exp1B') experimentResults[key].nPEntered = null;
+                 if(key === 'exp1C') experimentResults[key].fcEntered = null;
+                 if(key === 'exp1D') experimentResults[key].hRxEntered = null;
+                 if(key === 'exp1E') experimentResults[key].hTxEntered = null;
+             }
+
+             // Reset the snapshot
+             reportSnapshot = JSON.parse(JSON.stringify(initialExperimentDefaults));
+             for(const key in reportSnapshot) { 
+                 reportSnapshot[key].status = 'pending'; 
+                 if(key === 'exp1A') reportSnapshot[key].PrdEntered = null;
+                 if(key === 'exp1B') reportSnapshot[key].nPEntered = null;
+                 if(key === 'exp1C') reportSnapshot[key].fcEntered = null;
+                 if(key === 'exp1D') reportSnapshot[key].hRxEntered = null;
+                 if(key === 'exp1E') reportSnapshot[key].hTxEntered = null;
+             }
+
+             startButtonSection.classList.remove('hidden');
+             welcomeSection.classList.add('hidden');
+             experimentArea.classList.add('hidden');
+             hideAllExperimentInputs();
+             currentExperimentTitle.textContent = 'Choose your Experiment (Exp1A/1B/1C/1D/1E)';
+
+             // Reset Finish button to gray and disabled
+             finishButton.disabled = true;
+             finishButton.classList.add('btn-secondary');
+             finishButton.classList.remove('btn-primary');
+
+             generateReportButton.classList.add('hidden');
+             generateReportButton.disabled = true;
+
+             const allExpButtons = [exp1AButton, exp1BButton, exp1CButton, exp1DButton, exp1EButton];
+             allExpButtons.forEach(btn => {
+                 const originalId = btn.id.replace('Button', '');
+                 btn.textContent = originalId.toUpperCase();
+                 btn.classList.remove('btn-finished', 'btn-secondary', 'btn-success', 'btn-info');
+                 btn.classList.add('btn-primary');
+                 btn.disabled = false;
+             });
+             const defaultHtx = 30, defaultHrx = 1, defaultTxPow = 50, defaultFc = 2.0;
+             baseStation.style.height = `${mapValue(defaultHtx, 1, 100, 50, 250)}px`;
+             mobileUnit.style.height = `70px`;
+             mobileUnit.style.bottom = `${mapValue(defaultHrx, 1, 10, 0, maxMobileBottom)}px`;
+             if (simulationArea.offsetWidth > 0) updateSignalCircles(defaultFc, defaultTxPow);
+             showMessageBox('Restart', 'All experiments have been reset.', '🔄');
+         });
+
+        // Finish Button Listener
+        finishButton.addEventListener('click', () => {
+              // This check is slightly redundant since button is only enabled when allDone, but good for safety
+              let allDone = true;
+              for (const expKey in experimentResults) {
+                   // Status must be 'correct' or 'submitted' (and captured in snapshot)
+                  if (reportSnapshot[expKey].status !== 'submitted' && reportSnapshot[expKey].status !== 'correct') {
+                       allDone = false;
+                       break;
+                   }
+              }
+
+              if(allDone) {
+                   showMessageBox('Finish', 'You have finished the experiments. You can now generate a report.', '✅');
+                   generateReportButton.classList.remove('hidden');
+                   generateReportButton.disabled = false;
+
+                   // Deactivate and turn gray AFTER click
+                   finishButton.disabled = true;
+                   finishButton.classList.remove('btn-primary');
+                   finishButton.classList.add('btn-secondary');
+              } else {
+                   showMessageBox('Error', 'Please submit results for all experiments (Exp1A-Exp1E) before finishing.', '⚠️');
+                   // Keep finish button disabled if not all experiments are submitted
+                   finishButton.disabled = true; 
+              }
+        });
+
+        // Helper function to format values for PDF/Text
+        function formatVal(val, precision = 2) {
+            if (val === null || val === undefined || isNaN(parseFloat(val))) { return 'N/A'; } // Handle NaN/null/undefined
+            const parsedVal = parseFloat(val);
+            // No need for secondary isNaN check here as it's covered above
+            return parsedVal.toFixed(precision);
+        }
+
+        // *** UPDATED Function to populate the hidden PDF template div ***
+        function populatePdfTemplate() {
+            const exp = reportSnapshot; // Use snapshot data
+            const date = new Date();
+            const dateString = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+            const timeString = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+
+            // Helper for formatting
+            const fv = (val, p = 2) => formatVal(val, p);
+            const fv1 = (val) => formatVal(val, 1);
+            
+            // Helper to determine display status
+            const getDisplayStatus = (expKey, enteredProp, actualProp) => {
+                const snapshot = exp[expKey];
+                if (snapshot.status === 'pending') return 'pending'; // If never submitted
+                if (snapshot.status === 'correct') return 'correct'; // If checked and correct
+
+                const entered = snapshot[enteredProp];
+                const actual = snapshot[actualProp];
+
+                // If submitted but value is invalid or null/undefined
+                 if (entered === null || entered === undefined || isNaN(parseFloat(entered))) {
+                     return 'incorrect'; // Treat invalid/missing submitted input as incorrect
+                 }
+
+                 // If submitted with a valid number, compare
+                if (Math.abs(parseFloat(entered) - actual) < 0.01) {
+                    return 'correct'; // Should technically match snapshot.status, but recalculate for safety
+                } else {
+                    return 'incorrect';
+                }
+            };
+
+
+            // Populate Header
+            document.getElementById('pdf-date').textContent = dateString;
+            document.getElementById('pdf-time').textContent = timeString;
+            document.getElementById('pdf-user-name').textContent = userName || 'User Name';
+            document.getElementById('pdf-signature-user').textContent = userName || 'User Name';
+
+            // Populate Table Cells using <pre> tags
+            // EXP1A
+            document.getElementById('pdf-data-1a').innerHTML = 
+                `Pr(d0): ${fv(exp.exp1A.Prd0)} dBm\n` +
+                `d0: ${fv1(exp.exp1A.d0)} m\n` +
+                `Dist: ${fv1(exp.exp1A.Dist)} m\n` +
+                `<span class="highlight">Pr(Entered): ${fv(exp.exp1A.PrdEntered)} dBm</span>\n` +
+                `<span class="highlight">Pr(Actual): ${fv(exp.exp1A.PrdActual)} dBm</span>\n` +
+                `Status: ${getDisplayStatus('exp1A', 'PrdEntered', 'PrdActual')}`; // Use helper
+
+            // EXP1B
+            document.getElementById('pdf-data-1b').innerHTML = 
+                `TxPow: ${fv1(exp.exp1B.TxPow)} dBm\n` +
+                `Pr(d0): ${fv(exp.exp1B.Prd0)} dBm\n` +
+                `d0: ${fv1(exp.exp1B.d0)} m\n` +
+                `Dist: ${fv1(exp.exp1B.Dist)} m\n` +
+                `Pr(d): ${fv(exp.exp1B.Prd)} dBm\n` +
+                `<span class="highlight">n(Entered): ${fv(exp.exp1B.nPEntered)}</span>\n` +
+                `<span class="highlight">n(Actual): ${fv(exp.exp1B.nPActual)}</span>\n` +
+                `Status: ${getDisplayStatus('exp1B', 'nPEntered', 'nPActual')}`; // Use helper
+            
+            // EXP1C
+            document.getElementById('pdf-data-1c').innerHTML = 
+                `TxPow: ${fv1(exp.exp1C.TxPow)} dBm\n` +
+                `hTx: ${fv1(exp.exp1C.hTx)} m\n` +
+                `hRx: ${fv1(exp.exp1C.hRx)} m\n` +
+                `Dist: ${fv1(exp.exp1C.Dist)} m\n` +
+                `Pr(d): ${fv(exp.exp1C.Prd)} dBm\n` +
+                `n: ${fv(exp.exp1C.nP)}\n` +
+                `<span class="highlight">fc(Entered): ${fv(exp.exp1C.fcEntered)} GHz</span>\n` +
+                `<span class="highlight">fc(Actual): ${fv(exp.exp1C.fcActual)} GHz</span>\n` +
+                `Status: ${getDisplayStatus('exp1C', 'fcEntered', 'fcActual')}`; // Use helper
+
+            // EXP1D
+            document.getElementById('pdf-data-1d').innerHTML = 
+                `fc: ${fv1(exp.exp1D.fc)} GHz\n` +
+                `TxPow: ${fv1(exp.exp1D.TxPow)} dBm\n` +
+                `hTx: ${fv1(exp.exp1D.hTx)} m\n` +
+                `Dist: ${fv1(exp.exp1D.Dist)} m\n` +
+                `Pr(d): ${fv(exp.exp1D.Prd)} dBm\n` +
+                `n: ${fv(exp.exp1D.nP)}\n` +
+                `<span class="highlight">hRx(Entered): ${fv(exp.exp1D.hRxEntered)} m</span>\n` +
+                `<span class="highlight">hRx(Actual): ${fv(exp.exp1D.hRxActual)} m</span>\n` +
+                `Status: ${getDisplayStatus('exp1D', 'hRxEntered', 'hRxActual')}`; // Use helper
+
+            // EXP1E
+            document.getElementById('pdf-data-1e').innerHTML = 
+                `fc: ${fv1(exp.exp1E.fc)} GHz\n` +
+                `TxPow: ${fv1(exp.exp1E.TxPow)} dBm\n` +
+                `hRx: ${fv1(exp.exp1E.hRx)} m\n` +
+                `Dist: ${fv1(exp.exp1E.Dist)} m\n` +
+                `Pr(d): ${fv(exp.exp1E.Prd)} dBm\n` + 
+                `n: ${fv(exp.exp1E.nP)}\n` +
+                `<span class="highlight">hTx(Entered): ${fv(exp.exp1E.hTxEntered)} m</span>\n` +
+                `<span class="highlight">hTx(Actual): ${fv(exp.exp1E.hTxActual)} m</span>\n` +
+                `Status: ${getDisplayStatus('exp1E', 'hTxEntered', 'hTxActual')}`; // Use helper
+        }
+
+       // --- (PDF Generation Logic - Unchanged from previous version) ---
+        generateReportButton.addEventListener('click', () => {
+            try {
+                populatePdfTemplate(); // 1. Populate the hidden HTML template
+            } catch (error) {
+                console.error("Error populating PDF template:", error);
+                showMessageBox('Error', 'Could not populate report data for PDF. ' + error.message, '❌');
+                return;
+            }
+
+            showMessageBox('Generating PDF', 'Please wait...', '⏳'); // 2. Show "Generating" message
+
+            // Get the jsPDF object
+            const { jsPDF } = window.jspdf;
+            
+            // Select the element to be converted
+            const content = document.getElementById('report-content');
+            const btn = generateReportButton; // Use the actual button for disabling
+
+            btn.textContent = 'Generating...';
+            btn.disabled = true;
+
+            // Use a short timeout to allow the modal to display and content to render
+            setTimeout(() => {
+                html2canvas(content, {
+                    scale: 2, // Use a higher scale for better resolution
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: content.scrollWidth,
+                    windowHeight: content.scrollHeight
+                }).then(canvas => {
+                    // Get image data from canvas
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create a new PDF document (Letter size, points)
+                    const pdf = new jsPDF('p', 'pt', 'letter');
+                    
+                    // Add the image to the PDF, fitting it to the page
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight(), undefined, 'FAST');
+                    
+                    // Save the PDF
+                    pdf.save(`FCMC_Exp1_${userName.replace(/\s/g, '_') || 'Guest'}.pdf`);
+
+                    // Restore button
+                    btn.textContent = 'Generate Report';
+                    btn.disabled = false;
+                    if (!messageBoxModal.classList.contains('hidden') && messageTitle.textContent === 'Generating PDF') {
+                         okMessageBox.click();
+                     }
+
+                }).catch(err => {
+                    console.error("Error generating PDF:", err);
+                    // Restore button even on error
+                    btn.textContent = 'Generate Report';
+                    btn.disabled = false;
+                    showMessageBox('Error', 'PDF generation failed. ' + err.message, '❌');
+                });
+            }, 50); // Small delay to help rendering
+        });
+
+        // Initial setup and Resize listener
+        window.onload = function() { if (!simulationArea.classList.contains('hidden')) { const rect = simulationArea.getBoundingClientRect(); simulationAreaWidth = rect.width; maxMobileX = simulationAreaWidth - mobileUnit.offsetWidth; mobileUnit.style.height = `70px`; maxMobileBottom = simulationArea.offsetHeight - mobileUnit.offsetHeight; updateMobileHorizontalPositionAndDistance(rect.left + rect.width * 0.7); updateSignalCircles(2.0, 50); } }; window.addEventListener('resize', () => { if (!simulationArea.classList.contains('hidden')) { const rect = simulationArea.getBoundingClientRect(); simulationAreaWidth = rect.width; maxMobileX = simulationAreaWidth - mobileUnit.offsetWidth; maxMobileBottom = simulationArea.offsetHeight - mobileUnit.offsetHeight; const currentMobileX = parseFloat(mobileUnit.style.left); mobileUnit.style.left = `${Math.max(minMobileX, Math.min(currentMobileX, maxMobileX))}px`; updateMobileHorizontalPositionAndDistance(mobileUnit.getBoundingClientRect().left + mobileUnit.offsetWidth / 2); let currentTxPow = 50, currentFc = 2.0; if (currentExperiment) { const expData = experimentResults[currentExperiment]; if (expData) { if (typeof expData.TxPow !== 'undefined') currentTxPow = expData.TxPow; if (currentExperiment === 'exp1C') { currentFc = expData.fcActual; } else if (typeof expData.fc !== 'undefined') { currentFc = expData.fc; } } } updateSignalCircles(currentFc, currentTxPow); } });
+
+    </script>
+
+    <!-- Hidden Div for PDF Content -->
+    <div id="report-content">
+        <div class="pdf-header">
+            <h1>Fading Channels & Mobile Communications</h1>
+            <p>IIT Kharagpur</p>
+        </div>
+        <div class="pdf-date-time">
+            <p>Date: <span id="pdf-date"></span></p>
+            <p>Time: <span id="pdf-time"></span></p>
+        </div>
+        <div class="pdf-main-title">
+            <h2>Exp 1: Understanding of PathLoss</h2>
+            <p>Name: <span id="pdf-user-name"></span></p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pdf-report-header" colspan="5">REPORT</th>
+                </tr>
+                <tr>
+                    <th class="pdf-exp-header">1A: Calculation of<br>Received Power</th>
+                    <th class="pdf-exp-header">1B: Calculation of<br>Pathloss Exponent</th>
+                    <th class="pdf-exp-header">1C: Calculation of<br>Carrier Frequency</th>
+                    <th class="pdf-exp-header">1D: Calculation of<br>Receiver Antenna Height</th>
+                    <th class="pdf-exp-header">1E: Calculation of<br>BS Antenna Height</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><pre id="pdf-data-1a"></pre></td>
+                    <td><pre id="pdf-data-1b"></pre></td>
+                    <td><pre id="pdf-data-1c"></pre></td>
+                    <td><pre id="pdf-data-1d"></pre></td>
+                    <td><pre id="pdf-data-1e"></pre></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pdf-footer">
+             <div class="pdf-signatures">
+                 <div class="pdf-signature-block">Signature of <span id="pdf-signature-user"></span></div>
+                 <div class="pdf-signature-block" style="text-align: right;">Signature of Faculty</div>
+             </div>
+             <div class="pdf-remarks">
+                 <strong>Remarks:</strong>
+             </div>
+         </div>
+    </div>
+
+<script src="../assets/js/iframeResize.js"></script>
+        
+        </body>
+</html>
